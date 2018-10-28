@@ -1,6 +1,6 @@
 package main;
 
-public class Produto {
+public class Produto implements Comparable<Produto>{
 	
 	private String nome;
 	private String descricao;
@@ -29,6 +29,9 @@ public class Produto {
 		return descricao;
 	}
 
+	public int compareTo(Produto outro) {
+		return this.nome.compareTo(outro.getNome());
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

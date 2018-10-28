@@ -1,18 +1,21 @@
 package main;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class Fornecedor {
+public class Fornecedor implements Comparable<Fornecedor> {
 	
 	private String nome;
 	private String email;
 	private String numero;
-	private Set<Produto> produtos;
+	private List<Produto> produtos;
 	
 	public Fornecedor(String nome, String email, String numero) {
 		this.nome = nome;
 		this.email = email;
 		this.numero = numero;
+		this.produtos = new ArrayList<>();
 	}
 	
 	public void cadastraProduto(String nome, String descricao, double valor) throws ProdutoJaCadastradoException {
@@ -23,6 +26,21 @@ public class Fornecedor {
 		else {
 			this.produtos.add(produtoASerAdcionado);
 		}
+	}
+	
+	public String toString() {
+		return this.nome + " - " + this.email + " - " + this.numero;
+	}
+	
+	
+	public String imprimeProdutos() {
+		String saida ="";
+		Collections.sort(this.produtos);
+		for(Produto p: this.produtos) {
+			saida += this.nome + " - " + p + "|";
+		}
+		
+		return saida;
 	}
 	
 	public String exibeProduto(String nome, String descricao) throws ProdutoNaoCadastradoException {
@@ -70,6 +88,10 @@ public class Fornecedor {
 		return true;
 	}
 
+	public int compareTo(Fornecedor outro) {
+		return this.nome.compareTo(outro.getNome());	
+	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
