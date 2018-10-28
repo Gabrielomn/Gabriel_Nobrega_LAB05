@@ -2,15 +2,15 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class FornecedorController {
 	private Map<String, Fornecedor> fornecedores;
 
 	public FornecedorController() {
-		this.fornecedores = new HashMap<>();
+		this.fornecedores = new TreeMap<>();
 	}
 	
 	public void cadastraProduto(String nomeDoFornecedor, String nome, String descricao, double valor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException {
@@ -22,29 +22,19 @@ public class FornecedorController {
 		}
 	}
 	
-	private List<Fornecedor> pegaListaFornecedores() {
-		List <Fornecedor> listaDeFornecedores = new ArrayList<>();
-		for (String e: this.fornecedores.keySet()) {
-			listaDeFornecedores.add(this.fornecedores.get(e));
-		}
-		Collections.sort(listaDeFornecedores);
-		return listaDeFornecedores;
-	}
-	
+
 	public String exibeFornecedores() {
 		String saida = "";
-		List<Fornecedor> fornecedores = this.pegaListaFornecedores();
-		for (Fornecedor f: fornecedores) {
-			saida += f.toString() + "|";
+		for (String f: this.fornecedores.keySet()) {
+			saida += this.fornecedores.get(f).toString() + "|";
 		}
 		return saida;
 	}
 	
 	public String exibeTodosProdutosDeTodosFornecedores() {
 		String saida = "";
-		List<Fornecedor> fornecedores = this.pegaListaFornecedores();
-		for (Fornecedor f: fornecedores) {
-			saida += f.imprimeProdutos() + "|";
+		for (String f: this.fornecedores.keySet()) {
+			saida += this.fornecedores.get(f).imprimeProdutos() + "|";
 		}
 		return saida;
 	}

@@ -1,6 +1,9 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClienteController {
@@ -35,6 +38,24 @@ public class ClienteController {
 		else {
 			throw new ClienteNaoExistenteException();
 		}
+	}
+	private List<Cliente> pegaListaClientes() {
+		List <Cliente> listaDeClientes = new ArrayList<>();
+		for (String e: this.clientes.keySet()) {
+			listaDeClientes.add(this.clientes.get(e));
+		}
+		Collections.sort(listaDeClientes);
+		return listaDeClientes;
+	}
+	
+	public String imprimeClientes() {
+		String saida = "";
+		List <Cliente> listaDeClientes = this.pegaListaClientes();
+		for (Cliente c: listaDeClientes) {
+			saida += c + "|";
+		}		
+		
+		return saida;
 	}
 	
 	public void setNome(String cpf, String nome) throws ClienteNaoExistenteException {

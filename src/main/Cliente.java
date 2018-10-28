@@ -1,6 +1,6 @@
 package main;
 
-public class Cliente {
+public class Cliente implements Comparable<Cliente> {
 
 	private String nome;
 	private String cpf;
@@ -54,6 +54,14 @@ public class Cliente {
 
 	public void setLocalizacao(String localizacao) {
 		this.localizacao = localizacao;
+	}
+	
+	public String getNome() {
+		return this.nome;
+	}
+	@Override
+	public int compareTo(Cliente outro) {
+		return this.nome.compareTo(outro.getNome());
 	}
 	
 }
