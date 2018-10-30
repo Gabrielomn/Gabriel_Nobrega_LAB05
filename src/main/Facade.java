@@ -1,5 +1,7 @@
 package main;
 
+import easyaccept.EasyAccept;
+
 public class Facade {
 	
 	private ClienteController clienteController;
@@ -10,7 +12,7 @@ public class Facade {
 		this.fornecedorController = new FornecedorController();
 	}
 	
-	public void cadastraCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException {
+	public void adicionaCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException {
 		this.clienteController.cadastraCliente(nome, cpf, email, localizacao);
 	}
 	public void removeCliente(String cpf) throws ClienteNaoExistenteException {
@@ -74,5 +76,10 @@ public class Facade {
 
 	public void alteraNumero(String nome, String novoNumero) throws FornecedorNaoExistenteException {
 		this.fornecedorController.alteraNumero(nome, novoNumero);
+	}
+	
+	public static void main(String[] args) {
+		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt" };
+		EasyAccept.main(args);
 	}
 }
