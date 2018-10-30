@@ -19,7 +19,7 @@ expect "Lucio Correia - SPLab - lucio_correia@ccc.ufcg.edu.br" exibeCliente cpf=
 expectError "Erro na exibicao do cliente: cliente nao existe." exibeCliente cpf=12345678911
 expect "Amigao Fernandes - LSD - amigao_fernandes@ccc.ufcg.edu.br | Ana Amari - SPG - ana_amari@ccc.ufcg.edu.br | Lucio Correia - SPLab - lucio_correia@ccc.ufcg.edu.br | Victor Emanuel - Labarc - vitao@ccc.ufcg.edu.br | Wilson Andre - Embedded - wilson_andre@ccc.ufcg.edu.br" exibeClientes
 ## Editando clientes ##
-editaCliente cpf=${cliente1} atributo="nome" novoValor="Vitao Farias"
+editaCliente cpf=00023827490 atributo="nome" novoValor="Vitao Farias"
 editaCliente cpf=${cliente2} atributo="email" novoValor="andre_wilson@ccc.ufcg.edu.br"
 editaCliente cpf=${cliente3} atributo="localizacao" novoValor="SPG"
 expect "Amigao Fernandes - SPG - amigao_fernandes@ccc.ufcg.edu.br | Ana Amari - SPG - ana_amari@ccc.ufcg.edu.br | Lucio Correia - SPLab - lucio_correia@ccc.ufcg.edu.br | Vitao Farias - Labarc - vitao@ccc.ufcg.edu.br | Wilson Andre - Embedded - andre_wilson@ccc.ufcg.edu.br" exibeClientes

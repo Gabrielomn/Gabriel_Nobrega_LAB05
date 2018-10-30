@@ -7,12 +7,25 @@ public class Produto implements Comparable<Produto>{
 	private double preco;
 	
 	public Produto(String nome, String descricao, double preco) {
+		if (nome.equals("") || nome == null) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
+		}
+		else if (descricao.equals("") || descricao == null) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: descricao nao pode ser vazia ou nula.");
+		}
+		if (preco < 0) {
+			throw new IllegalArgumentException("Erro no cadastro de produto: preco invalido.");
+		}
+		
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 	}
 
 	public void setPreco(double preco) {
+		if(preco < 0) {
+			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
+		}
 		this.preco = preco;
 	}
 
@@ -26,7 +39,7 @@ public class Produto implements Comparable<Produto>{
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return descricao; 
 	}
 
 	public int compareTo(Produto outro) {
@@ -62,6 +75,4 @@ public class Produto implements Comparable<Produto>{
 			return false;
 		return true;
 	}
-	
-	
 }

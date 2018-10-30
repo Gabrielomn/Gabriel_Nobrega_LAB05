@@ -12,8 +12,8 @@ public class Facade {
 		this.fornecedorController = new FornecedorController();
 	}
 	
-	public void adicionaCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException, IllegalArgumentException {
-		this.clienteController.cadastraCliente(nome, cpf, email, localizacao);
+	public String adicionaCliente(String cpf, String nome, String email, String localizacao) throws IllegalArgumentException, ClienteJaExistenteException{
+		return this.clienteController.cadastraCliente(nome, cpf, email, localizacao);
 	}
 	public void removeCliente(String cpf) throws ClienteNaoExistenteException {
 		this.clienteController.removeCliente(cpf);
@@ -23,22 +23,15 @@ public class Facade {
 		return this.clienteController.exibeCliente(cpf);
 	}
 	
-	public String imprimeClientes() {
+	public String exibeClientes() {
 		return this.clienteController.imprimeClientes();
 	}
-	public void setNome(String cpf, String nome) throws ClienteNaoExistenteException {
-		this.clienteController.setNome(cpf, nome);
+	
+	public void editaCliente(String cpf, String atributo, String novoValor) throws ClienteNaoExistenteException {
+		this.clienteController.editaCliente(cpf, atributo, novoValor);
 	}
 	
-	public void setEmail(String cpf, String email) throws ClienteNaoExistenteException {
-		this.clienteController.setEmail(cpf, email);
-	}
-
-	public void setLocalizacao(String cpf, String localizacao) throws ClienteNaoExistenteException {
-		this.clienteController.setLocalizacao(cpf, localizacao);
-	}
-	
-	public void cadastraProduto(String nomeDoFornecedor, String nome, String descricao, double valor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException {
+	public void adicionaProduto(String nomeDoFornecedor, String nome, String descricao, double valor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException {
 		this.fornecedorController.cadastraProduto(nomeDoFornecedor, nome, descricao, valor);
 	}
 
@@ -46,40 +39,44 @@ public class Facade {
 		return this.fornecedorController.exibeFornecedores();
 	}
 	
-	public String exibeTodosProdutosDeTodosFornecedores() {
+	public String exibeProdutos() {
 		return this.fornecedorController.exibeTodosProdutosDeTodosFornecedores();
 	}
 	
-	public String exibeProduto(String nomeDoFornecedor, String nome, String descricao) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException, ProdutoNaoCadastradoException {
+	public String exibeProduto(String nome, String descricao,String nomeDoFornecedor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException, ProdutoNaoCadastradoException {
 		return this.fornecedorController.exibeProduto(nomeDoFornecedor, nome, descricao);
 	}
 
-	public String exibeTodosProdutos(String nomeDoFornecedor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException, ProdutoNaoCadastradoException {
+	public String exibeProdutosFornecedor(String nomeDoFornecedor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException, ProdutoNaoCadastradoException {
 		return this.fornecedorController.exibeTodosProdutos(nomeDoFornecedor);
 	}
 
-	public void cadastraFornecedor(String nome, String numero, String email) throws FornecedorJaExistenteException {
-		this.fornecedorController.cadastraFornecedor(nome, numero, email);
+	public String adicionaFornecedor(String nome, String email, String numero) throws FornecedorJaExistenteException {
+		return this.fornecedorController.cadastraFornecedor(nome, numero, email);
 	}
 
 	public String exibeFornecedor(String nome) throws FornecedorNaoExistenteException {
 		return this.fornecedorController.exibeFornecedor(nome);
 	}
 
-	public void deletaFornecedor(String nome) throws FornecedorNaoExistenteException {
+	public void removeFornecedor(String nome) throws FornecedorNaoExistenteException {
 		this.fornecedorController.deletaFornecedor(nome);
 	}
 	
-	public void alteraEmail(String nome, String novoEmail) throws FornecedorNaoExistenteException {
-		this.fornecedorController.alteraEmail(nome, novoEmail);
+	public void editaFornecedor (String nome, String atributo, String novoValor) throws FornecedorNaoExistenteException {
+		this.fornecedorController.editaFornecedor(nome, atributo, novoValor);
 	}
-
-	public void alteraNumero(String nome, String novoNumero) throws FornecedorNaoExistenteException {
-		this.fornecedorController.alteraNumero(nome, novoNumero);
+	
+	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco) throws ProdutoNaoCadastradoException, FornecedorNaoExistenteException {
+		this.fornecedorController.editaProduto(nome, descricao,fornecedor,novoPreco);
+	}
+	
+	public void removeProduto(String nome, String descricao, String fornecedor) throws ProdutoNaoCadastradoException, FornecedorNaoExistenteException {
+		this.fornecedorController.removeProduto(nome,descricao,fornecedor);
 	}
 	
 	public static void main(String[] args) {
-		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt" };
+		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt","acceptance_test/use_case_2.txt","acceptance_test/use_case_3.txt"};
 		EasyAccept.main(args);
 	}
 }

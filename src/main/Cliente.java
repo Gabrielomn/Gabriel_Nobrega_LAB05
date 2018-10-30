@@ -7,21 +7,27 @@ public class Cliente implements Comparable<Cliente> {
 	private String email;
 	private String localizacao;
 
-	public Cliente(String nome, String cpf, String email, String localizacao) throws IllegalArgumentException{
-		if (nome.equals("")) {
+	public Cliente(String nome, String cpf, String email, String localizacao) throws IllegalArgumentException {
+		if ("".equals(nome) || nome == null) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
+		} else if (email.equals("") || email.equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: email nao pode ser vazio ou nulo.");
+		} else if (localizacao.equals("") || localizacao.equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: localizacao nao pode ser vazia ou nula.");
 		}
-		
+		else if (cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: cpf invalido.");
+		}
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.localizacao = localizacao;
 	}
-	
+
 	public String toString() {
 		return this.nome + " - " + this.localizacao + " - " + this.email;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -58,13 +64,14 @@ public class Cliente implements Comparable<Cliente> {
 	public void setLocalizacao(String localizacao) {
 		this.localizacao = localizacao;
 	}
-	
+
 	public String getNome() {
 		return this.nome;
 	}
+
 	@Override
 	public int compareTo(Cliente outro) {
 		return this.nome.compareTo(outro.getNome());
 	}
-	
+
 }
