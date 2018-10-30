@@ -7,7 +7,10 @@ public class Cliente implements Comparable<Cliente> {
 	private String email;
 	private String localizacao;
 
-	public Cliente(String nome, String cpf, String email, String localizacao) {
+	public Cliente(String nome, String cpf, String email, String localizacao) throws IllegalArgumentException{
+		if (nome.equals("")) {
+			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
+		}
 		
 		this.nome = nome;
 		this.cpf = cpf;

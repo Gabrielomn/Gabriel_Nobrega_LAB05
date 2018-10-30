@@ -14,7 +14,7 @@ public class ClienteController {
 		this.clientes = new HashMap<>();
 	}
 
-	public void cadastraCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException {
+	public void cadastraCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException, IllegalArgumentException {
 		if (this.clientes.containsKey(cpf)) {
 			throw new ClienteJaExistenteException();
 		} else {

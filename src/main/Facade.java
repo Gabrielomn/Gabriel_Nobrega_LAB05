@@ -12,7 +12,7 @@ public class Facade {
 		this.fornecedorController = new FornecedorController();
 	}
 	
-	public void adicionaCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException {
+	public void adicionaCliente(String nome, String cpf, String email, String localizacao) throws ClienteJaExistenteException, IllegalArgumentException {
 		this.clienteController.cadastraCliente(nome, cpf, email, localizacao);
 	}
 	public void removeCliente(String cpf) throws ClienteNaoExistenteException {
