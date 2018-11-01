@@ -40,7 +40,7 @@ public class FornecedorController {
 	}
 
 	public String exibeProduto(String nomeDoFornecedor, String nome, String descricao)
-			throws FornecedorNaoExistenteException, ProdutoJaCadastradoException, ProdutoNaoCadastradoException {
+			throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
 		if (this.fornecedores.containsKey(nomeDoFornecedor)) {
 			return this.fornecedores.get(nomeDoFornecedor).exibeProduto(nome, descricao);
 		} else if (nomeDoFornecedor.equals("") || nomeDoFornecedor == null) {
@@ -51,7 +51,7 @@ public class FornecedorController {
 	}
 
 	public String exibeTodosProdutos(String nomeDoFornecedor)
-			throws FornecedorNaoExistenteException, ProdutoJaCadastradoException, ProdutoNaoCadastradoException {
+			throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
 		if (this.fornecedores.containsKey(nomeDoFornecedor)) {
 			return this.fornecedores.get(nomeDoFornecedor).imprimeProdutos();
 		} else {
@@ -120,25 +120,23 @@ public class FornecedorController {
 
 	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco)
 			throws ProdutoNaoCadastradoException, FornecedorNaoExistenteException {
-		if (this.fornecedores.containsKey(fornecedor)) {
-			this.fornecedores.get(fornecedor).editaProduto(nome, descricao, novoPreco);
-		} else if(fornecedor.equals("") || fornecedor == null){
+		if (fornecedor.equals("") || fornecedor == null) {
 			throw new IllegalArgumentException("Erro na edicao de produto: fornecedor nao pode ser vazio ou nulo.");
-		}
-		else{
+		} else if (this.fornecedores.containsKey(fornecedor)) {
+			this.fornecedores.get(fornecedor).editaProduto(nome, descricao, novoPreco);
+		} else {
 			throw new FornecedorNaoExistenteException("Erro na edicao de produto: fornecedor nao existe.");
 		}
 	}
 
-	public void removeProduto(String nome, String descricao, String fornecedor) throws ProdutoNaoCadastradoException, FornecedorNaoExistenteException {
-		if(fornecedor.equals("") || fornecedor == null) {
+	public void removeProduto(String nome, String descricao, String fornecedor)
+			throws ProdutoNaoCadastradoException, FornecedorNaoExistenteException {
+		if (fornecedor.equals("") || fornecedor == null) {
 			throw new IllegalArgumentException("Erro na remocao de produto: fornecedor nao pode ser vazio ou nulo.");
-		}
-		else {
-			if (this.fornecedores.containsKey(fornecedor)){
+		} else {
+			if (this.fornecedores.containsKey(fornecedor)) {
 				this.fornecedores.get(fornecedor).removeProduto(nome, descricao);
-			}
-			else {
+			} else {
 				throw new FornecedorNaoExistenteException("Erro na remocao de produto: fornecedor nao existe.");
 			}
 		}

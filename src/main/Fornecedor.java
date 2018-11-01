@@ -2,14 +2,16 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Fornecedor implements Comparable<Fornecedor> {
 
 	private String nome;
 	private String email;
 	private String numero;
-	private List<Produto> produtos;
+	private Set<Produto> produtos;
 
 	public Fornecedor(String nome, String email, String numero) {
 		if ("".equals(nome) || nome == null) {
@@ -22,7 +24,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		this.nome = nome;
 		this.email = email;
 		this.numero = numero;
-		this.produtos = new ArrayList<>();
+		this.produtos = new HashSet<>();
 	}
 
 	public void cadastraProduto(String nome, String descricao, double valor) throws ProdutoJaCadastradoException {
@@ -38,10 +40,20 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		return this.nome + " - " + this.email + " - " + this.numero;
 	}
 
+	private List<Produto> fazListaProdutos() {
+		
+		List<Produto> saida = new ArrayList<>();
+		for (Produto p: this.produtos) {
+			saida.add(p);
+		}
+		return saida;
+	}
+	
 	public String imprimeProdutos() {
 		String saida = "";
-		Collections.sort(this.produtos);
-		for (Produto p : this.produtos) {
+		List<Produto> lista = this.fazListaProdutos();
+		Collections.sort(lista);
+		for (Produto p : lista) {
 			saida += this.nome + " - " + p + " | ";
 		}
 		saida = saida.substring(0, saida.length() - 3);
@@ -115,6 +127,10 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	}
 
 	public void editaProduto(String nome2, String descricao, double novoPreco) throws ProdutoNaoCadastradoException {
+		if (novoPreco < 0) {
+			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
+		}
+		
 		if (nome2.equals("") || nome2 == null) {
 			throw new IllegalArgumentException("Erro na edicao de produto: nome nao pode ser vazio ou nulo.");
 		}

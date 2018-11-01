@@ -30,8 +30,8 @@ expectError "Erro na exibicao de produto: produto nao existe." exibeProduto nome
 
 editaProduto nome="X-frango" descricao="Hamburguer de frango com queijo e calabresa" fornecedor="Seu Olavo" novoPreco=3.50
 editaProduto nome="Rubacao" descricao="Feijao com arroz e queijo coalho" fornecedor="Dona Alba" novoPreco=17.00
-expect "X-frango - Hamburguer de frango com queijo e calabresa - R$3,50" exibeProduto nome="X-frango" fornecedor="Seu Olavo"
-expect "Rubacao - Feijao com arroz e queijo coalho - R$17,00" exibeProduto nome="Rubacao" fornecedor="Dona Alba"
+expect "X-frango - Hamburguer de frango com queijo e calabresa - R$3,50" exibeProduto nome="X-frango" descricao="Hamburguer de frango com queijo e calabresa" fornecedor="Seu Olavo"
+expect "Rubacao - Feijao com arroz e queijo coalho - R$17,00" exibeProduto nome="Rubacao" descricao="Feijao com arroz e queijo coalho" fornecedor="Dona Alba"
 
 expectError "Erro na edicao de produto: fornecedor nao existe." editaProduto nome="X-frango" descricao="Hamburguer de frango com queijo" fornecedor="Helhao" novoPreco=5.50
 expectError "Erro na edicao de produto: preco invalido." editaProduto nome="X-frango" descricao="Hamburguer de frango com queijo" fornecedor="Seu Olavo" novoPreco=-1
