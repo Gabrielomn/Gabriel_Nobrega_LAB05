@@ -1,7 +1,6 @@
 package main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,14 +38,14 @@ public class FornecedorControllerTest {
 		} catch (Exception e) {
 			fail("nao deveria lançar nenhuma exceção");
 		}
-		
+
 		try {
 			String msg = "Gabriel - @ccc - 123124";
-			assertEquals(msg,this.f.exibeFornecedor("Gabriel"));
-		}catch(Exception e) {
+			assertEquals(msg, this.f.exibeFornecedor("Gabriel"));
+		} catch (Exception e) {
 			fail("nao deveria lançar exceção");
 		}
-		
+
 	}
 
 	@Test
@@ -54,12 +53,13 @@ public class FornecedorControllerTest {
 		try {
 			this.f.exibeFornecedor("Gabriel");
 			fail("deveria lançar exceção");
-		}catch(FornecedorNaoExistenteException fnee) {
+		} catch (FornecedorNaoExistenteException fnee) {
 			String msg = "Erro na exibicao do fornecedor: fornecedor nao existe.";
 			assertEquals(msg, fnee.getMessage());
 		}
-		
+
 	}
+
 	@Test
 	void testImprimirFornecedores() {
 		FornecedorController a = new FornecedorController();
@@ -193,7 +193,7 @@ public class FornecedorControllerTest {
 			fail("");
 		}
 	}
-	
+
 	@Test
 	void testRemoveFornecedor() {
 		try {
@@ -202,19 +202,170 @@ public class FornecedorControllerTest {
 		} catch (FornecedorJaExistenteException e) {
 			fail("fornecedores nao deveriam existir");
 		}
-		
 		try {
 			this.f.deletaFornecedor("Gabriel");
 		} catch (FornecedorNaoExistenteException e) {
 			fail("fornecedor deveria existir nesse momento");
 		}
-		
 		try {
 			this.f.exibeFornecedor("Gabriel");
 			fail("fornecedor nao existe");
-		}catch(FornecedorNaoExistenteException fnee) {
+		} catch (FornecedorNaoExistenteException fnee) {
 			String msg = "Erro na exibicao do fornecedor: fornecedor nao existe.";
 			assertEquals(msg, fnee.getMessage());
+		}
+	}
+
+	@Test
+	void testRemoveFornecedorVazio() {
+		try {
+			this.f.deletaFornecedor("");
+		} catch (FornecedorNaoExistenteException e) {
+			fail("fornecedor deveria existir nesse momento");
+		} catch (IllegalArgumentException iae) {
+			String msg = "Erro na remocao do fornecedor: nome do fornecedor nao pode ser vazio.";
+			assertEquals(msg, iae.getMessage());
+		}
+	}
+
+	@Test
+	void testRemoveFornecedorNaoExistente() {
+		try {
+			this.f.deletaFornecedor("Gabriel");
+		} catch (FornecedorNaoExistenteException e) {
+			String msg = "Erro na remocao do fornecedor: fornecedor nao existe.";
+			assertEquals(msg, e.getMessage());
+		} catch (IllegalArgumentException iae) {
+			fail("fornecedor deveria existir nesse momento");
+		}
+	}
+
+	@Test
+	void testEditaFornecedorEmail() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+			this.f.editaFornecedor("Gabriel", "email", "@gmail");
+			String msg = "Gabriel - @gmail - 999999999";
+			assertEquals(msg, this.f.exibeFornecedor("Gabriel"));
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+	}
+
+	@Test
+	void testEditaFornecedorTelefone() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+			this.f.editaFornecedor("Gabriel", "telefone", "314123");
+			String msg = "Gabriel - @ccc - 314123";
+			assertEquals(msg, this.f.exibeFornecedor("Gabriel"));
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+	}
+
+	@Test
+	void testEditaFornecedorAtributoVazio() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+		try {
+			this.f.editaFornecedor("Gabriel", "", "314123");
+		} catch (FornecedorNaoExistenteException e) {
+			fail("fornecedor deveria existir");
+		} catch (IllegalArgumentException iae) {
+			String msg = "Erro na edicao do fornecedor: atributo nao pode ser vazio ou nulo.";
+			assertEquals(msg, iae.getMessage());
+		}
+	}
+
+	@Test
+	void testEditaFornecedorNovoValorVazio() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+		try {
+			this.f.editaFornecedor("Gabriel", "telefone", "");
+		} catch (FornecedorNaoExistenteException e) {
+			fail("fornecedor deveria existir");
+		} catch (IllegalArgumentException iae) {
+			String msg = "Erro na edicao do fornecedor: novo valor nao pode ser vazio ou nulo.";
+			assertEquals(msg, iae.getMessage());
+		}
+	}
+
+	@Test
+	void testEditaFornecedorNome() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+		try {
+			this.f.editaFornecedor("Gabriel", "nome", "onlok");
+		} catch (FornecedorNaoExistenteException e) {
+			fail("fornecedor deveria existir");
+		} catch (IllegalArgumentException iae) {
+			String msg = "Erro na edicao do fornecedor: nome nao pode ser editado.";
+			assertEquals(msg, iae.getMessage());
+		}
+	}
+
+	@Test
+	void testEditaAtributoNaoExistente() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+		try {
+			this.f.editaFornecedor("Gabriel", "apelido", "onlok");
+		} catch (FornecedorNaoExistenteException e) {
+			fail("fornecedor deveria existir");
+		} catch (IllegalArgumentException iae) {
+			String msg = "Erro na edicao do fornecedor: atributo nao existe.";
+			assertEquals(msg, iae.getMessage());
+		}
+	}
+
+	@Test
+	void testEditaProduto() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.editaProduto("xbox", "xcaixa", "Gabriel", 999.99);
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+		String msg = "xbox - xcaixa - R$999,99";
+		try {
+			assertEquals(msg, this.f.exibeProduto("Gabriel", "xbox", "xcaixa"));
+		} catch (FornecedorNaoExistenteException | ProdutoNaoCadastradoException e) {
+			fail("nao deveria lancar nenhuma excecao");
+		}
+	}
+
+	
+	@Test
+	void testRemoveProduto() {
+		try {
+			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
+			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.removeProduto("xbox", "xcaixa", "Gabriel");
+		} catch (Exception e) {
+			fail("nao deveria lancar nenhuma exceção");
+		}
+		String msg = "Erro na exibicao de produto: produto nao existe.";
+		try {
+			this.f.exibeProduto("Gabriel", "xbox", "xcaixa");
+		} catch (ProdutoNaoCadastradoException pnce) {
+			assertEquals(msg, pnce.getMessage());
+		} catch (FornecedorNaoExistenteException e) {
+			fail("fornecedor existe");
 		}
 	}
 }

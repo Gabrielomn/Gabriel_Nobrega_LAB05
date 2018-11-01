@@ -82,7 +82,7 @@ public class FornecedorController {
 		} else if (this.fornecedores.containsKey(nome)) {
 			this.fornecedores.remove(nome);
 		} else {
-			throw new FornecedorNaoExistenteException();
+			throw new FornecedorNaoExistenteException("Erro na remocao do fornecedor: fornecedor nao existe.");
 		}
 	}
 
