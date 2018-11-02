@@ -1,11 +1,22 @@
 package main;
 
+/**
+ * Entidade que representa produto
+ * @author gabriel
+ *
+ */
 public class Produto implements Comparable<Produto>{
 	
 	private String nome;
 	private String descricao;
 	private double preco;
 	
+	/**
+	 * construtor de produto
+	 * @param nome do objeto
+	 * @param descricao do objeto
+	 * @param preco do objeto
+	 */
 	public Produto(String nome, String descricao, double preco) {
 		if (nome.equals("") || nome == null) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: nome nao pode ser vazio ou nulo.");
@@ -21,7 +32,11 @@ public class Produto implements Comparable<Produto>{
 		this.descricao = descricao;
 		this.preco = preco;
 	}
-
+	
+	/**
+	 * seta preco, caso preco seja abaixo de 0 lança exceção
+	 * @param preco
+	 */
 	public void setPreco(double preco) {
 		if(preco < 0) {
 			throw new IllegalArgumentException("Erro na edicao de produto: preco invalido.");
@@ -29,6 +44,9 @@ public class Produto implements Comparable<Produto>{
 		this.preco = preco;
 	}
 
+	/**
+	 * retorna uma String que representa o objeto
+	 */
 	@Override
 	public String toString() {
 		return this.nome + " - " + this.descricao + " - R$" + String.format("%.2f",this.preco);
@@ -45,6 +63,7 @@ public class Produto implements Comparable<Produto>{
 	public int compareTo(Produto outro) {
 		return this.nome.compareTo(outro.getNome());
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -54,6 +73,9 @@ public class Produto implements Comparable<Produto>{
 		return result;
 	}
 
+	/**
+	 * equals de objeto, leva em conta o nome e a descricao
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

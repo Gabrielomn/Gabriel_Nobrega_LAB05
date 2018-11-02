@@ -189,9 +189,7 @@ public class FornecedorControllerTest {
 			assertEquals(msg, this.f.exibeTodosProdutos("Gabriel"));
 		} catch (FornecedorNaoExistenteException e) {
 			fail("fornecedor deveria existir");
-		} catch (ProdutoNaoCadastradoException e) {
-			fail("");
-		}
+		} 
 	}
 
 	@Test

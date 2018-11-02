@@ -1,5 +1,10 @@
 package main;
 
+/**
+ * Classe que representa a entidade CLIENTE
+ * @author gabriel
+ *
+ */
 public class Cliente implements Comparable<Cliente> {
 
 	private String nome;
@@ -7,6 +12,14 @@ public class Cliente implements Comparable<Cliente> {
 	private String email;
 	private String localizacao;
 
+	/**
+	 * construtor de cliente
+	 * @param nome
+	 * @param cpf
+	 * @param email
+	 * @param localizacao
+	 * @throws IllegalArgumentException
+	 */
 	public Cliente(String nome, String cpf, String email, String localizacao) throws IllegalArgumentException {
 		if ("".equals(nome) || nome == null) {
 			throw new IllegalArgumentException("Erro no cadastro do cliente: nome nao pode ser vazio ou nulo.");
@@ -24,6 +37,9 @@ public class Cliente implements Comparable<Cliente> {
 		this.localizacao = localizacao;
 	}
 
+	/**
+	 * retorna representação textual do Cliente
+	 */
 	public String toString() {
 		return this.nome + " - " + this.localizacao + " - " + this.email;
 	}
@@ -36,6 +52,9 @@ public class Cliente implements Comparable<Cliente> {
 		return result;
 	}
 
+	/**
+	 * equals de cliente, leva em conta o cpf do cliente
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -53,6 +72,7 @@ public class Cliente implements Comparable<Cliente> {
 		return true;
 	}
 
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
