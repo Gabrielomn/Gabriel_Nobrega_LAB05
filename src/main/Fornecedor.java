@@ -1,5 +1,6 @@
 package main;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,6 +20,56 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private String numero;
 	private Set<Produto> produtos;
 	
+	public void cadastraCombo(String nome, String descricao, double fator, String produtos) throws ProdutoNaoCadastradoException {
+		ProdutoSimples[] temp= this.recuperaProdutos(produtos);
+		this.produtos.add(new Combo(nome, descricao, fator, temp));
+	}
+	
+	
+	private ProdutoSimples[] recuperaProdutos(String produtos) throws ProdutoNaoCadastradoException {
+		
+		List<String[]> a = this.getArrayStringsProdutos(produtos);
+		List<Produto> prods = this.verificaPertinencia(a);
+		ProdutoSimples[] temp = new ProdutoSimples[prods.size()];
+		int cont = 0;
+		for (Produto p: prods) {
+			if(p instanceof ProdutoSimples) {
+				temp[cont] = (ProdutoSimples) p;
+				cont++;
+			}
+			
+		}
+		return temp;
+	}
+
+
+	private List<Produto> verificaPertinencia(List<String[]> all) throws ProdutoNaoCadastradoException {
+		List<Produto> p = new ArrayList<>();
+		for (String[] small: all) {
+			Produto a = this.procuraProduto(small[0], small[1]);
+			if(a == null) {
+				throw new ProdutoNaoCadastradoException();
+			}
+			else {
+				p.add(a);
+			}
+			
+		}
+		return p;
+	}
+
+
+	private List<String[]> getArrayStringsProdutos(String produtos) {
+		String[] aux = produtos.split(",");
+		List<String[]> a = new ArrayList<>();
+		for(String p: aux) {
+			a.add(p.split(" - "));
+		}
+		
+		return a;
+	}
+
+
 	/**
 	 * construtor de fornecedor
 	 * @param nome do fornecedor
@@ -46,8 +97,8 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @param valor do produto a ser cadastrado
 	 * @throws ProdutoJaCadastradoException caso ja tenha sido cadastrado esse produto
 	 */
-	public void cadastraProduto(String nome, String descricao, double valor) throws ProdutoJaCadastradoException {
-		Produto produtoASerAdcionado = new Produto(nome, descricao, valor);
+	public void cadastraProdutoSimples(String nome, String descricao, double valor) throws ProdutoJaCadastradoException {
+		Produto produtoASerAdcionado = new ProdutoSimples(nome, descricao, valor);
 		if (this.produtos.contains(produtoASerAdcionado)) {
 			throw new ProdutoJaCadastradoException("Erro no cadastro de produto: produto ja existe.");
 		} else {

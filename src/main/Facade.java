@@ -32,7 +32,7 @@ public class Facade {
 	}
 	
 	public void adicionaProduto(String nomeDoFornecedor, String nome, String descricao, double valor) throws FornecedorNaoExistenteException, ProdutoJaCadastradoException {
-		this.fornecedorController.cadastraProduto(nomeDoFornecedor, nome, descricao, valor);
+		this.fornecedorController.cadastraProdutoSimples(nomeDoFornecedor, nome, descricao, valor);
 	}
 
 	public String exibeFornecedores() {

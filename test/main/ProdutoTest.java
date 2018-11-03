@@ -9,11 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ProdutoTest {
-	private Produto p;
+	private ProdutoSimples p;
 	
 	@BeforeEach
 	void setup() {
-		this.p = new Produto("ps4","melhorquexcaixa", 1399.99);
+		this.p = new ProdutoSimples("ps4","melhorquexcaixa", 1399.99);
 	}
 	
 	@Test
@@ -44,11 +44,11 @@ class ProdutoTest {
 	
 	@Test
 	void testEqualsTrue() {
-		assertTrue(this.p.equals(new Produto("ps4", "melhorquexcaixa", 999.99)));
+		assertTrue(this.p.equals(new ProdutoSimples("ps4", "melhorquexcaixa", 999.99)));
 	}
 	
 	@Test
 	void testEqualsFalse() {
-		assertFalse(this.p.equals(new Produto("xcaixa", "ps4 e pior", 2999.99)));
+		assertFalse(this.p.equals(new ProdutoSimples("xcaixa", "ps4 e pior", 2999.99)));
 	}
 }

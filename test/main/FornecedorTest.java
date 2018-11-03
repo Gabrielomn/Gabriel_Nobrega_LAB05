@@ -20,10 +20,10 @@ public class FornecedorTest {
 	@Test
 	void testImprimeProdutos() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
-			this.a.cadastraProduto("borracha", "borracha default", 1.2);
-			this.a.cadastraProduto("alien", "EXATAMENTE, UM ALIEN", 99999999999.99);
-			this.a.cadastraProduto("xbox", "xcaixa", 1249.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("borracha", "borracha default", 1.2);
+			this.a.cadastraProdutoSimples("alien", "EXATAMENTE, UM ALIEN", 99999999999.99);
+			this.a.cadastraProdutoSimples("xbox", "xcaixa", 1249.99);
 			String msg = "Gabriel - alien - EXATAMENTE, UM ALIEN - R$99999999999,99 | Gabriel - borracha - borracha default - R$1,20 | Gabriel - lapis - lapis default - R$0,99 | Gabriel - xbox - xcaixa - R$1249,99";
 			assertEquals(msg, this.a.imprimeProdutos());
 		} catch (ProdutoJaCadastradoException pjce) {
@@ -40,7 +40,7 @@ public class FornecedorTest {
 	@Test
 	void testCadastraProdutoEexibe() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 			String msg = "lapis - lapis default - R$0,99";
 			assertEquals(msg, this.a.exibeProduto("lapis", "lapis default"));
 		} catch (ProdutoJaCadastradoException e) {
@@ -54,8 +54,8 @@ public class FornecedorTest {
 	@Test
 	void testCadastraProdutoRepetido() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
-			this.a.cadastraProduto("lapis", "lapis default", 3.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 3.99);
 		} catch (ProdutoJaCadastradoException e) {
 			String msg = "Erro no cadastro de produto: produto ja existe.";
 			assertEquals(msg, e.getMessage());
@@ -77,7 +77,7 @@ public class FornecedorTest {
 	@Test
 	void testCadastraExibeProdutoDescricaoVazia() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 		this.a.exibeProduto("lapis", "");
 		} catch (ProdutoJaCadastradoException e) {
 			fail("produto nao deveria existir antes");
@@ -93,7 +93,7 @@ public class FornecedorTest {
 	@Test
 	void testCadastraExibeProdutoNomeVazia() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 		this.a.exibeProduto("", "lapis default");
 		} catch (ProdutoJaCadastradoException e) {
 			fail("produto nao deveria existir antes");
@@ -134,7 +134,7 @@ public class FornecedorTest {
 	@Test
 	void testEditaProdutoDescricaoVazio() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 			this.a.editaProduto("lapis", "", 9213);
 			fail("descricao vazio, deveria ter chamado a exceção");
 		}catch(IllegalArgumentException iae){
@@ -150,7 +150,7 @@ public class FornecedorTest {
 	@Test
 	void testEditaProdutoNomeVazio() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 			this.a.editaProduto("", "lapis default", 9213);
 			fail("nome vazio, deveria ter chamado a exceção");
 		}catch(IllegalArgumentException iae){
@@ -180,7 +180,7 @@ public class FornecedorTest {
 	@Test
 	void testEditaProduto() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 			this.a.editaProduto("lapis", "lapis default", 9213);
 			String msg = "lapis - lapis default - R$9213,00";
 			assertEquals(msg, this.a.exibeProduto("lapis","lapis default"));
@@ -199,7 +199,7 @@ public class FornecedorTest {
 	@Test
 	void testRemoveProduto() {
 		try {
-			this.a.cadastraProduto("lapis", "lapis default", 0.99);
+			this.a.cadastraProdutoSimples("lapis", "lapis default", 0.99);
 			this.a.removeProduto("lapis", "lapis default");
 			
 		} catch (ProdutoJaCadastradoException e) {

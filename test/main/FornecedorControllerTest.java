@@ -87,12 +87,12 @@ public class FornecedorControllerTest {
 		}
 
 		try {
-			a.cadastraProduto("Gabriel", "lapis", "lapis default", 0.99);
-			a.cadastraProduto("Gabriel", "borracha", "borracha default", 1.2);
-			a.cadastraProduto("Gabriel", "alien", "EXATAMENTE, UM ALIEN", 99999999999.99);
-			a.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
-			a.cadastraProduto("Thaynnara", "naruto e1", "manga de naruto primeira edicao", 20.99);
-			a.cadastraProduto("Thaynnara", "naruto ultimate battle", "Ciro uzumaki vs Bolsonaro Uchiha",
+			a.cadastraProdutoSimples("Gabriel", "lapis", "lapis default", 0.99);
+			a.cadastraProdutoSimples("Gabriel", "borracha", "borracha default", 1.2);
+			a.cadastraProdutoSimples("Gabriel", "alien", "EXATAMENTE, UM ALIEN", 99999999999.99);
+			a.cadastraProdutoSimples("Gabriel", "xbox", "xcaixa", 1249.99);
+			a.cadastraProdutoSimples("Thaynnara", "naruto e1", "manga de naruto primeira edicao", 20.99);
+			a.cadastraProdutoSimples("Thaynnara", "naruto ultimate battle", "Ciro uzumaki vs Bolsonaro Uchiha",
 					Integer.MAX_VALUE);
 			String msg = "Gabriel - alien - EXATAMENTE, UM ALIEN - R$99999999999,99 | Gabriel - borracha - borracha default - R$1,20 | Gabriel - lapis - lapis default - R$0,99 | Gabriel - xbox - xcaixa - R$1249,99 | Thaynnara - naruto e1 - manga de naruto primeira edicao - R$20,99 | Thaynnara - naruto ultimate battle - Ciro uzumaki vs Bolsonaro Uchiha - R$2147483647,00";
 			assertEquals(msg, a.exibeTodosProdutosDeTodosFornecedores());
@@ -107,7 +107,7 @@ public class FornecedorControllerTest {
 	void testExibeProduto() {
 		try {
 			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
-			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.cadastraProdutoSimples("Gabriel", "xbox", "xcaixa", 1249.99);
 		} catch (FornecedorJaExistenteException e) {
 			fail("fornecedor nao deveria existir antes da instanciacao");
 		} catch (FornecedorNaoExistenteException e) {
@@ -131,7 +131,7 @@ public class FornecedorControllerTest {
 	void testExibeProdutoFornecedorVazio() {
 		try {
 			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
-			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.cadastraProdutoSimples("Gabriel", "xbox", "xcaixa", 1249.99);
 		} catch (FornecedorJaExistenteException e1) {
 			fail("");
 		} catch (FornecedorNaoExistenteException e) {
@@ -174,10 +174,10 @@ public class FornecedorControllerTest {
 		}
 
 		try {
-			this.f.cadastraProduto("Gabriel", "lapis", "lapis default", 0.99);
-			this.f.cadastraProduto("Gabriel", "borracha", "borracha default", 1.2);
-			this.f.cadastraProduto("Gabriel", "alien", "EXATAMENTE, UM ALIEN", 99999999999.99);
-			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.cadastraProdutoSimples("Gabriel", "lapis", "lapis default", 0.99);
+			this.f.cadastraProdutoSimples("Gabriel", "borracha", "borracha default", 1.2);
+			this.f.cadastraProdutoSimples("Gabriel", "alien", "EXATAMENTE, UM ALIEN", 99999999999.99);
+			this.f.cadastraProdutoSimples("Gabriel", "xbox", "xcaixa", 1249.99);
 		} catch (FornecedorNaoExistenteException e) {
 			fail("fornecedor deveria existir");
 		} catch (ProdutoJaCadastradoException e) {
@@ -334,7 +334,7 @@ public class FornecedorControllerTest {
 	void testEditaProduto() {
 		try {
 			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
-			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.cadastraProdutoSimples("Gabriel", "xbox", "xcaixa", 1249.99);
 			this.f.editaProduto("xbox", "xcaixa", "Gabriel", 999.99);
 		} catch (Exception e) {
 			fail("nao deveria lancar nenhuma exceção");
@@ -352,7 +352,7 @@ public class FornecedorControllerTest {
 	void testRemoveProduto() {
 		try {
 			this.f.cadastraFornecedor("Gabriel", "999999999", "@ccc");
-			this.f.cadastraProduto("Gabriel", "xbox", "xcaixa", 1249.99);
+			this.f.cadastraProdutoSimples("Gabriel", "xbox", "xcaixa", 1249.99);
 			this.f.removeProduto("xbox", "xcaixa", "Gabriel");
 		} catch (Exception e) {
 			fail("nao deveria lancar nenhuma exceção");

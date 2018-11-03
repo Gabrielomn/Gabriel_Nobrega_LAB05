@@ -27,10 +27,10 @@ public class FornecedorController {
 	 * @throws FornecedorNaoExistenteException caso nao exista o fornecedor
 	 * @throws ProdutoJaCadastradoException caso o fornecedor ja tenha esse produto
 	 */
-	public void cadastraProduto(String nomeDoFornecedor, String nome, String descricao, double valor)
+	public void cadastraProdutoSimples(String nomeDoFornecedor, String nome, String descricao, double valor)
 			throws FornecedorNaoExistenteException, ProdutoJaCadastradoException {
 		if (this.fornecedores.containsKey(nomeDoFornecedor)) {
-			this.fornecedores.get(nomeDoFornecedor).cadastraProduto(nome, descricao, valor);
+			this.fornecedores.get(nomeDoFornecedor).cadastraProdutoSimples(nome, descricao, valor);
 		} else if (nomeDoFornecedor.equals("") || nomeDoFornecedor == null) {
 			throw new IllegalArgumentException("Erro no cadastro de produto: fornecedor nao pode ser vazio ou nulo.");
 		} else {

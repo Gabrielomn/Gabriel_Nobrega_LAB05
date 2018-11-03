@@ -47,8 +47,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="main.Produto" project="Gabriel_Nobrega_lab05" 
-    file="/Gabriel_Nobrega_lab05/src/main/Produto.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="main.ProdutoSimples" project="Gabriel_Nobrega_lab05" 
+    file="/Gabriel_Nobrega_lab05/src/main/ProdutoSimples.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="562" y="-208"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
