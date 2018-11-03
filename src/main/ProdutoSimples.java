@@ -59,10 +59,6 @@ public class ProdutoSimples implements Produto{
 	public String getDescricao() {
 		return descricao; 
 	}
-
-	public int compareTo(ProdutoSimples outro) {
-		return this.nome.compareTo(outro.getNome());
-	}
 	
 	@Override
 	public int hashCode() {
