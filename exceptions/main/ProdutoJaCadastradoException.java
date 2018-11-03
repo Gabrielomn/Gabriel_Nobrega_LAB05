@@ -7,7 +7,7 @@ public class ProdutoJaCadastradoException extends Exception {
 	}
 	
 	public ProdutoJaCadastradoException() {
-		super("Fornecedor nao existente");
+		super("Produto ja cadastrado");
 	}	
 
 }

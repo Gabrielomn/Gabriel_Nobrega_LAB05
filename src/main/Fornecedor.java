@@ -19,61 +19,76 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private String email;
 	private String numero;
 	private Set<Produto> produtos;
-	
-	public void cadastraCombo(String nome, String descricao, double fator, String produtos) throws ProdutoNaoCadastradoException {
-		ProdutoSimples[] temp= this.recuperaProdutos(produtos);
-		this.produtos.add(new Combo(nome, descricao, fator, temp));
+
+	public void cadastraCombo(String nome, String descricao, double fator, String produtos)
+			throws ProdutoNaoCadastradoException, ProdutoJaCadastradoException {
+
+		if ("".equals(nome) || nome == null) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: nome nao pode ser vazio ou nulo.");
+		} else if (descricao.equals("") || descricao.equals(null)) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: descricao nao pode ser vazia ou nula.");
+		} else if (fator >= 1 || fator < 0) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: fator invalido.");
+		} else if (produtos.length() == 0) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
+		}
+		ProdutoSimples[] temp = this.recuperaProdutos(produtos);
+		Combo aSerAdcionado = new Combo(nome, descricao, fator, temp);
+		if (this.produtos.contains(aSerAdcionado)) {
+			throw new ProdutoJaCadastradoException("Erro no cadastro de combo: combo ja existe.");
+		} else {
+			this.produtos.add(new Combo(nome, descricao, fator, temp));
+		}
 	}
-	
-	
+
 	private ProdutoSimples[] recuperaProdutos(String produtos) throws ProdutoNaoCadastradoException {
-		
+
 		List<String[]> a = this.getArrayStringsProdutos(produtos);
-		List<Produto> prods = this.verificaPertinencia(a);
+		List<ProdutoSimples> prods = this.verificaPertinencia(a);
 		ProdutoSimples[] temp = new ProdutoSimples[prods.size()];
 		int cont = 0;
-		for (Produto p: prods) {
-			if(p instanceof ProdutoSimples) {
+		for (ProdutoSimples p : prods) {
+			if (p instanceof ProdutoSimples) {
 				temp[cont] = (ProdutoSimples) p;
 				cont++;
 			}
-			
+
 		}
 		return temp;
 	}
 
-
-	private List<Produto> verificaPertinencia(List<String[]> all) throws ProdutoNaoCadastradoException {
-		List<Produto> p = new ArrayList<>();
-		for (String[] small: all) {
-			Produto a = this.procuraProduto(small[0], small[1]);
-			if(a == null) {
-				throw new ProdutoNaoCadastradoException();
-			}
-			else {
+	private List<ProdutoSimples> verificaPertinencia(List<String[]> all) throws ProdutoNaoCadastradoException {
+		List<ProdutoSimples> p = new ArrayList<>();
+		for (String[] small : all) {
+			ProdutoSimples a = this.procuraProdutoSimples(small[0], small[1]);
+			if (a == null) {
+				throw new ProdutoNaoCadastradoException("Erro no cadastro de combo: produto nao existe.");
+			} else {
 				p.add(a);
 			}
-			
+
 		}
 		return p;
 	}
 
-
 	private List<String[]> getArrayStringsProdutos(String produtos) {
 		String[] aux = produtos.split(",");
 		List<String[]> a = new ArrayList<>();
-		for(String p: aux) {
-			a.add(p.split(" - "));
+		for (String p : aux) {
+			String[] aux2 = p.split(" - ");
+			aux2[0] = aux2[0].trim();
+			aux2[1] = aux2[1].trim();
+			a.add(aux2);
 		}
-		
+
 		return a;
 	}
 
-
 	/**
 	 * construtor de fornecedor
-	 * @param nome do fornecedor
-	 * @param email do fornecedor
+	 * 
+	 * @param nome   do fornecedor
+	 * @param email  do fornecedor
 	 * @param numero do fornecedor
 	 */
 	public Fornecedor(String nome, String email, String numero) {
@@ -92,12 +107,14 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	/**
 	 * 
-	 * @param nome do produto a ser cadastrado
+	 * @param nome      do produto a ser cadastrado
 	 * @param descricao do produto a ser cadastrado
-	 * @param valor do produto a ser cadastrado
-	 * @throws ProdutoJaCadastradoException caso ja tenha sido cadastrado esse produto
+	 * @param valor     do produto a ser cadastrado
+	 * @throws ProdutoJaCadastradoException caso ja tenha sido cadastrado esse
+	 *                                      produto
 	 */
-	public void cadastraProdutoSimples(String nome, String descricao, double valor) throws ProdutoJaCadastradoException {
+	public void cadastraProdutoSimples(String nome, String descricao, double valor)
+			throws ProdutoJaCadastradoException {
 		Produto produtoASerAdcionado = new ProdutoSimples(nome, descricao, valor);
 		if (this.produtos.contains(produtoASerAdcionado)) {
 			throw new ProdutoJaCadastradoException("Erro no cadastro de produto: produto ja existe.");
@@ -115,6 +132,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	/**
 	 * retorna uma lista contendo os produtos
+	 * 
 	 * @return
 	 */
 	private List<Produto> fazListaProdutos() {
@@ -128,6 +146,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	/**
 	 * imprime todos os produtos que estão cadastrados nesse fornecedor
+	 * 
 	 * @return
 	 */
 	public String imprimeProdutos() {
@@ -140,13 +159,14 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		saida = saida.substring(0, saida.length() - 3);
 		return saida;
 	}
-	
+
 	/**
 	 * 
-	 * @param nome do produto a ser exibido
+	 * @param nome      do produto a ser exibido
 	 * @param descricao do produto a ser exibido
 	 * @return o toString desse produto
-	 * @throws ProdutoNaoCadastradoException caso esse produto nao tenha sido cadastrado
+	 * @throws ProdutoNaoCadastradoException caso esse produto nao tenha sido
+	 *                                       cadastrado
 	 */
 	public String exibeProduto(String nome, String descricao) throws ProdutoNaoCadastradoException {
 		if (nome.equals("") || nome == null) {
@@ -168,13 +188,30 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * 
 	 * @param nome
 	 * @param descricao
-	 * @return o produto que tem o nome e a descricao passada como parametro, null caso nao exista
+	 * @return o produto que tem o nome e a descricao passada como parametro, null
+	 *         caso nao exista
 	 */
 	private Produto procuraProduto(String nome, String descricao) {
 		for (Produto p : this.produtos) {
 			if (p.getDescricao().equals(descricao) && p.getNome().equals(nome)) {
 				return p;
 			}
+		}
+		return null;
+	}
+
+	private ProdutoSimples procuraProdutoSimples(String nome, String descricao) throws ProdutoNaoCadastradoException {
+		boolean achouCombo = false;
+		for (Produto p : this.produtos) {
+			if (p.getDescricao().equals(descricao) && p.getNome().equals(nome) && p instanceof ProdutoSimples) {
+				return (ProdutoSimples) p;
+			} else if (p.getDescricao().equals(descricao) && p.getNome().equals(nome)) {
+				achouCombo = true;
+			}
+		}
+		if (achouCombo) {
+			throw new ProdutoNaoCadastradoException(
+					"Erro no cadastro de combo: um combo n�o pode possuir combos na lista de produtos.");
 		}
 		return null;
 	}
@@ -188,7 +225,8 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	}
 
 	/**
-	 * equals, retorna true caso seja igual ou false quando nao, leva em conta apenas o nome. 
+	 * equals, retorna true caso seja igual ou false quando nao, leva em conta
+	 * apenas o nome.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -225,7 +263,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	/**
 	 * 
-	 * @param nome2 do produto a ser editado
+	 * @param nome2     do produto a ser editado
 	 * @param descricao do produto a ser editado
 	 * @param novoPreco do produto a ser editado
 	 * @throws ProdutoNaoCadastradoException caso nao exista esse produto
@@ -252,7 +290,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	/**
 	 * 
-	 * @param nome2 do produto a ser removido
+	 * @param nome2     do produto a ser removido
 	 * @param descricao do produto a ser removido
 	 * @throws ProdutoNaoCadastradoException caso nao exista esse produto
 	 */
@@ -268,5 +306,33 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		} else {
 			this.produtos.remove(procurado);
 		}
+	}
+
+	public void editaCombo(String nome2, String descricao, double novoFator) throws ProdutoNaoCadastradoException {
+			if (novoFator <= 0 || novoFator >= 1) {
+				throw new IllegalArgumentException("Erro na edicao de combo: fator invalido.");
+			}
+			if (nome2.equals("") || nome2 == null) {
+				throw new IllegalArgumentException("Erro na edicao de combo: nome nao pode ser vazio ou nulo.");
+			}
+			if (descricao.equals("") || descricao == null) {
+				throw new IllegalArgumentException("Erro na edicao de combo: descricao nao pode ser vazia ou nula.");
+			}
+			Combo procurado = this.procuraCombo(nome2, descricao);
+			if (procurado == null) {
+				throw new ProdutoNaoCadastradoException("Erro na edicao de combo: produto nao existe.");
+			} else {
+				procurado.setPreco(novoFator);
+			}
+		}
+
+	private Combo procuraCombo(String nome2, String descricao) {
+
+		for(Produto p: this.produtos) {
+			if(p instanceof Combo && p.getNome().equals(nome2) && p.getDescricao().equals(descricao)) {
+				return (Combo) p;
+			}
+		}	
+		return null;
 	}
 }

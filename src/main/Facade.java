@@ -12,6 +12,14 @@ public class Facade {
 		this.fornecedorController = new FornecedorController();
 	}
 	
+	public void adicionaCombo(String fornecedor, String nome, String descricao, double fator, String produtos) throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException, ProdutoJaCadastradoException {
+		this.fornecedorController.cadastraCombo(fornecedor, nome, descricao, fator, produtos);
+	}
+	
+	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator) throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
+		this.fornecedorController.editaCombo(nome, descricao,fornecedor,novoFator);
+	}
+	
 	public String adicionaCliente(String cpf, String nome, String email, String localizacao) throws IllegalArgumentException, ClienteJaExistenteException{
 		return this.clienteController.cadastraCliente(nome, cpf, email, localizacao);
 	}
@@ -76,7 +84,7 @@ public class Facade {
 	}
 	
 	public static void main(String[] args) {
-		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt","acceptance_test/use_case_2.txt","acceptance_test/use_case_3.txt"};
+		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt","acceptance_test/use_case_2.txt","acceptance_test/use_case_3.txt","acceptance_test/use_case_4.txt"};
 		EasyAccept.main(args);
 	}
 }

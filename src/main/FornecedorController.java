@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 /**
  * entidade responsavel por manipular os fornecedores
+ * 
  * @author gabriel
  *
  */
@@ -18,14 +19,27 @@ public class FornecedorController {
 		this.fornecedores = new TreeMap<>();
 	}
 
+	public void cadastraCombo(String nomeDoFornecedor, String nome, String descricao, double fator, String produtos)
+			throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException, ProdutoJaCadastradoException {
+		if (this.fornecedores.containsKey(nomeDoFornecedor)) {
+			this.fornecedores.get(nomeDoFornecedor).cadastraCombo(nome, descricao, fator, produtos);
+		} else if (nomeDoFornecedor.equals("") || nomeDoFornecedor == null) {
+			throw new IllegalArgumentException("Erro no cadastro de combo: fornecedor nao pode ser vazio ou nulo.");
+		} else {
+			throw new FornecedorNaoExistenteException("Erro no cadastro de combo: fornecedor nao existe.");
+		}
+	}
+
 	/**
 	 * cadastra um Produto de acordo com os parametros
+	 * 
 	 * @param nomeDoFornecedor que vai guardar o produto
-	 * @param nome do produto
-	 * @param descricao do produto
-	 * @param valor do produto
+	 * @param nome             do produto
+	 * @param descricao        do produto
+	 * @param valor            do produto
 	 * @throws FornecedorNaoExistenteException caso nao exista o fornecedor
-	 * @throws ProdutoJaCadastradoException caso o fornecedor ja tenha esse produto
+	 * @throws ProdutoJaCadastradoException    caso o fornecedor ja tenha esse
+	 *                                         produto
 	 */
 	public void cadastraProdutoSimples(String nomeDoFornecedor, String nome, String descricao, double valor)
 			throws FornecedorNaoExistenteException, ProdutoJaCadastradoException {
@@ -50,7 +64,7 @@ public class FornecedorController {
 		saida = saida.substring(0, saida.length() - 3);
 		return saida;
 	}
-	
+
 	/**
 	 * 
 	 * @return uma representacao de todos os produtos de todos os fornecedores
@@ -67,11 +81,12 @@ public class FornecedorController {
 	/**
 	 * 
 	 * @param nomeDoFornecedor que contem o produto desejado
-	 * @param nome do produto desjeado
-	 * @param descricao do produto desejado
+	 * @param nome             do produto desjeado
+	 * @param descricao        do produto desejado
 	 * @return toString desse produto
 	 * @throws FornecedorNaoExistenteException caso esse fornecedor nao exista
-	 * @throws ProdutoNaoCadastradoException caso esse produto nao esteja cadastrado nesse fornecedor
+	 * @throws ProdutoNaoCadastradoException   caso esse produto nao esteja
+	 *                                         cadastrado nesse fornecedor
 	 */
 	public String exibeProduto(String nomeDoFornecedor, String nome, String descricao)
 			throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
@@ -83,15 +98,14 @@ public class FornecedorController {
 			throw new FornecedorNaoExistenteException("Erro na exibicao de produto: fornecedor nao existe.");
 		}
 	}
-	
+
 	/**
 	 *
 	 * @param nomeDoFornecedor desejado
 	 * @return uma representacao de todos os produtos desse fornecedor
 	 * @throws FornecedorNaoExistenteException caso nao exista esse fornecedor
 	 */
-	public String exibeTodosProdutos(String nomeDoFornecedor)
-			throws FornecedorNaoExistenteException {
+	public String exibeTodosProdutos(String nomeDoFornecedor) throws FornecedorNaoExistenteException {
 		if (this.fornecedores.containsKey(nomeDoFornecedor)) {
 			return this.fornecedores.get(nomeDoFornecedor).imprimeProdutos();
 		} else {
@@ -101,9 +115,10 @@ public class FornecedorController {
 
 	/**
 	 * cadastra um fornecedor
-	 * @param nome do fornecedor a ser cadastrado
+	 * 
+	 * @param nome   do fornecedor a ser cadastrado
 	 * @param numero do fornecedor a ser cadastrado
-	 * @param email do fornecedor a ser cadastrado
+	 * @param email  do fornecedor a ser cadastrado
 	 * @return o nome do fornecedor cadastrado
 	 * @throws FornecedorJaExistenteException caso ja exista esse fornecedor
 	 */
@@ -147,7 +162,8 @@ public class FornecedorController {
 
 	/**
 	 * altera o email
-	 * @param nome do fornecedor a ser editado
+	 * 
+	 * @param nome      do fornecedor a ser editado
 	 * @param novoEmail do fornecedor
 	 * @throws FornecedorNaoExistenteException caso nao existaa
 	 */
@@ -161,7 +177,8 @@ public class FornecedorController {
 
 	/**
 	 * altera o numero do fornecedor
-	 * @param nome do fornecedor a ser editado
+	 * 
+	 * @param nome       do fornecedor a ser editado
 	 * @param novoNumero do fornecedor
 	 * @throws FornecedorNaoExistenteException caso nao exista o fornecedor
 	 */
@@ -175,8 +192,8 @@ public class FornecedorController {
 
 	/**
 	 * 
-	 * @param nome do fornecedor
-	 * @param atributo a ser editado
+	 * @param nome      do fornecedor
+	 * @param atributo  a ser editado
 	 * @param novoValor ddo atributo
 	 * @throws FornecedorNaoExistenteException caso o fornecedor nao exista
 	 */
@@ -198,11 +215,11 @@ public class FornecedorController {
 
 	/**
 	 * 
-	 * @param nome do produto a ser editado
-	 * @param descricao do produto a ser editado
+	 * @param nome       do produto a ser editado
+	 * @param descricao  do produto a ser editado
 	 * @param fornecedor do produto a ser editado
-	 * @param novoPreco do produto a ser editado
-	 * @throws ProdutoNaoCadastradoException caso nao esteja cadastrado
+	 * @param novoPreco  do produto a ser editado
+	 * @throws ProdutoNaoCadastradoException   caso nao esteja cadastrado
 	 * @throws FornecedorNaoExistenteException caso nao exista o fornecedor
 	 */
 	public void editaProduto(String nome, String descricao, String fornecedor, double novoPreco)
@@ -218,10 +235,10 @@ public class FornecedorController {
 
 	/**
 	 * 
-	 * @param nome do produto a ser removido
-	 * @param descricao do produto a ser removido
+	 * @param nome       do produto a ser removido
+	 * @param descricao  do produto a ser removido
 	 * @param fornecedor nome do fornecedor que tem o produto
-	 * @throws ProdutoNaoCadastradoException caso nao esteja cadastrado
+	 * @throws ProdutoNaoCadastradoException   caso nao esteja cadastrado
 	 * @throws FornecedorNaoExistenteException caso nao exista esse fornecedor
 	 */
 	public void removeProduto(String nome, String descricao, String fornecedor)
@@ -234,6 +251,18 @@ public class FornecedorController {
 			} else {
 				throw new FornecedorNaoExistenteException("Erro na remocao de produto: fornecedor nao existe.");
 			}
+		}
+	}
+
+	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator)
+			throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
+		if (fornecedor.equals("") || fornecedor == null) {
+			throw new IllegalArgumentException("Erro na edicao de combo: fornecedor nao pode ser vazio ou nulo.");
+		}
+		if (this.fornecedores.containsKey(fornecedor)) {
+			this.fornecedores.get(fornecedor).editaCombo(nome, descricao, novoFator);
+		} else {
+			throw new FornecedorNaoExistenteException("Erro na edicao de combo: fornecedor nao existe.");
 		}
 	}
 
