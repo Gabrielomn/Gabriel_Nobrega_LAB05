@@ -265,5 +265,9 @@ public class FornecedorController {
 			throw new FornecedorNaoExistenteException("Erro na edicao de combo: fornecedor nao existe.");
 		}
 	}
+	
+//	public Compra getCompra() {
+//		
+//	}
 
 }

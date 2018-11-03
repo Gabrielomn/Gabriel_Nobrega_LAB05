@@ -1,11 +1,10 @@
 package main;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * classe que representa a entidade Fornecedor!
@@ -18,7 +17,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private String nome;
 	private String email;
 	private String numero;
-	private Set<Produto> produtos;
+	private HashMap<IdProduto, Produto> produtos;
 
 	public void cadastraCombo(String nome, String descricao, double fator, String produtos)
 			throws ProdutoNaoCadastradoException, ProdutoJaCadastradoException {
@@ -33,11 +32,11 @@ public class Fornecedor implements Comparable<Fornecedor> {
 			throw new IllegalArgumentException("Erro no cadastro de combo: combo deve ter produtos.");
 		}
 		ProdutoSimples[] temp = this.recuperaProdutos(produtos);
-		Combo aSerAdcionado = new Combo(nome, descricao, fator, temp);
-		if (this.produtos.contains(aSerAdcionado)) {
+		IdProduto id = new IdProduto(nome, descricao);
+		if (this.produtos.containsKey(id)) {
 			throw new ProdutoJaCadastradoException("Erro no cadastro de combo: combo ja existe.");
 		} else {
-			this.produtos.add(new Combo(nome, descricao, fator, temp));
+			this.produtos.put(id, new Combo(nome, descricao, fator, temp));
 		}
 	}
 
@@ -102,7 +101,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		this.nome = nome;
 		this.email = email;
 		this.numero = numero;
-		this.produtos = new HashSet<>();
+		this.produtos = new HashMap<>();
 	}
 
 	/**
@@ -115,11 +114,12 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 */
 	public void cadastraProdutoSimples(String nome, String descricao, double valor)
 			throws ProdutoJaCadastradoException {
+		IdProduto id = new IdProduto(nome, descricao);
 		Produto produtoASerAdcionado = new ProdutoSimples(nome, descricao, valor);
-		if (this.produtos.contains(produtoASerAdcionado)) {
+		if (this.produtos.containsKey(id)) {
 			throw new ProdutoJaCadastradoException("Erro no cadastro de produto: produto ja existe.");
 		} else {
-			this.produtos.add(produtoASerAdcionado);
+			this.produtos.put(id, produtoASerAdcionado);
 		}
 	}
 
@@ -138,8 +138,8 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private List<Produto> fazListaProdutos() {
 
 		List<Produto> saida = new ArrayList<>();
-		for (Produto p : this.produtos) {
-			saida.add(p);
+		for (IdProduto id : this.produtos.keySet()) {
+			saida.add(this.produtos.get(id));
 		}
 		return saida;
 	}
@@ -175,13 +175,14 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		if (descricao.equals("") || descricao == null) {
 			throw new IllegalArgumentException("Erro na exibicao de produto: descricao nao pode ser vazia ou nula.");
 		}
-
-		Produto produtoProcurado = this.procuraProduto(nome, descricao);
-		if (produtoProcurado == null) {
-			throw new ProdutoNaoCadastradoException("Erro na exibicao de produto: produto nao existe.");
+		Produto produtoProcurado;
+		if (this.produtos.containsKey(new IdProduto(nome, descricao))) {
+			produtoProcurado = this.produtos.get(new IdProduto(nome, descricao));
 		} else {
-			return produtoProcurado.toString();
+			throw new ProdutoNaoCadastradoException("Erro na exibicao de produto: produto nao existe.");
 		}
+		return produtoProcurado.toString();
+
 	}
 
 	/**
@@ -191,21 +192,23 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	 * @return o produto que tem o nome e a descricao passada como parametro, null
 	 *         caso nao exista
 	 */
-	private Produto procuraProduto(String nome, String descricao) {
-		for (Produto p : this.produtos) {
-			if (p.getDescricao().equals(descricao) && p.getNome().equals(nome)) {
-				return p;
-			}
-		}
-		return null;
-	}
+//	private Produto procuraProduto(String nome, String descricao) {
+//		for (Produto p : this.produtos) {
+//			if (this.produtos.get(id).getDescricao().equals(descricao) && this.produtos.get(id).getNome().equals(nome)) {
+//				return p;
+//			}
+//		}
+//		return null;
+//	}
 
 	private ProdutoSimples procuraProdutoSimples(String nome, String descricao) throws ProdutoNaoCadastradoException {
 		boolean achouCombo = false;
-		for (Produto p : this.produtos) {
-			if (p.getDescricao().equals(descricao) && p.getNome().equals(nome) && p instanceof ProdutoSimples) {
-				return (ProdutoSimples) p;
-			} else if (p.getDescricao().equals(descricao) && p.getNome().equals(nome)) {
+		for (IdProduto id : this.produtos.keySet()) {
+			if (this.produtos.get(id).getDescricao().equals(descricao) && this.produtos.get(id).getNome().equals(nome)
+					&& this.produtos.get(id) instanceof ProdutoSimples) {
+				return (ProdutoSimples) this.produtos.get(id);
+			} else if (this.produtos.get(id).getDescricao().equals(descricao)
+					&& this.produtos.get(id).getNome().equals(nome)) {
 				achouCombo = true;
 			}
 		}
@@ -280,11 +283,11 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		if (descricao.equals("") || descricao == null) {
 			throw new IllegalArgumentException("Erro na edicao de produto: descricao nao pode ser vazia ou nula.");
 		}
-		Produto procurado = this.procuraProduto(nome2, descricao);
-		if (procurado == null) {
-			throw new ProdutoNaoCadastradoException("Erro na edicao de produto: produto nao existe.");
+		IdProduto id = new IdProduto(nome2, descricao);
+		if (this.produtos.containsKey(id)) {
+			this.produtos.get(id).setPreco(novoPreco);
 		} else {
-			procurado.setPreco(novoPreco);
+			throw new ProdutoNaoCadastradoException("Erro na edicao de produto: produto nao existe.");
 		}
 	}
 
@@ -300,39 +303,42 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		} else if (descricao.equals("") || descricao == null) {
 			throw new IllegalArgumentException("Erro na remocao de produto: descricao nao pode ser vazia ou nula.");
 		}
-		Produto procurado = this.procuraProduto(nome2, descricao);
-		if (procurado == null) {
-			throw new ProdutoNaoCadastradoException("Erro na remocao de produto: produto nao existe.");
-		} else {
-			this.produtos.remove(procurado);
+		IdProduto id = new IdProduto(nome2, descricao);
+		if(this.produtos.containsKey(id)) {
+			this.produtos.remove(id);
 		}
+		else {
+			throw new ProdutoNaoCadastradoException("Erro na remocao de produto: produto nao existe.");
+
+		}
+
 	}
 
 	public void editaCombo(String nome2, String descricao, double novoFator) throws ProdutoNaoCadastradoException {
-			if (novoFator <= 0 || novoFator >= 1) {
-				throw new IllegalArgumentException("Erro na edicao de combo: fator invalido.");
-			}
-			if (nome2.equals("") || nome2 == null) {
-				throw new IllegalArgumentException("Erro na edicao de combo: nome nao pode ser vazio ou nulo.");
-			}
-			if (descricao.equals("") || descricao == null) {
-				throw new IllegalArgumentException("Erro na edicao de combo: descricao nao pode ser vazia ou nula.");
-			}
-			Combo procurado = this.procuraCombo(nome2, descricao);
-			if (procurado == null) {
-				throw new ProdutoNaoCadastradoException("Erro na edicao de combo: produto nao existe.");
-			} else {
-				procurado.setPreco(novoFator);
-			}
+		if (novoFator <= 0 || novoFator >= 1) {
+			throw new IllegalArgumentException("Erro na edicao de combo: fator invalido.");
 		}
+		if (nome2.equals("") || nome2 == null) {
+			throw new IllegalArgumentException("Erro na edicao de combo: nome nao pode ser vazio ou nulo.");
+		}
+		if (descricao.equals("") || descricao == null) {
+			throw new IllegalArgumentException("Erro na edicao de combo: descricao nao pode ser vazia ou nula.");
+		}
+		Combo procurado = this.procuraCombo(nome2, descricao);
+		if (procurado == null) {
+			throw new ProdutoNaoCadastradoException("Erro na edicao de combo: produto nao existe.");
+		} else {
+			procurado.setPreco(novoFator);
+		}
+	}
 
 	private Combo procuraCombo(String nome2, String descricao) {
-
-		for(Produto p: this.produtos) {
-			if(p instanceof Combo && p.getNome().equals(nome2) && p.getDescricao().equals(descricao)) {
-				return (Combo) p;
+		IdProduto id = new IdProduto(nome2, descricao);
+		if (this.produtos.containsKey(id)) {
+			if (this.produtos.get(id) instanceof Combo) {
+				return (Combo) this.produtos.get(id);
 			}
-		}	
+		}
 		return null;
 	}
 }
