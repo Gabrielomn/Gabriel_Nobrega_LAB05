@@ -1,7 +1,10 @@
 package main;
 
 public class IdProduto {
-	
+
+	private String nome;
+	private String descricao;
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -33,12 +36,12 @@ public class IdProduto {
 		return true;
 	}
 
-	private String nome;
-	private String descricao;
-
 	public IdProduto(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
 	}
-	
+
+	public String toString() {
+		return this.nome;
+	}
 }

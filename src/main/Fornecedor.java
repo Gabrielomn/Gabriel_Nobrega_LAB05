@@ -341,4 +341,20 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		}
 		return null;
 	}
+
+
+
+	public double getValorCompra(String nome, String descricao) throws ProdutoNaoCadastradoException {
+		if (nome.equals("") || nome == null){
+			throw new IllegalArgumentException("Erro ao cadastrar compra: nome do produto nao pode ser vazio ou nulo.");
+		}else if (descricao.equals("") || descricao == null) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: descricao do produto nao pode ser vazia ou nula");
+		}
+		IdProduto id = new IdProduto(nome, descricao);
+		if (!this.produtos.containsKey(id)) {
+			throw new ProdutoNaoCadastradoException("Erro ao cadastrar compra: produto nao existe.");
+		}
+		
+		return this.produtos.get(id).getValor();
+	}
 }

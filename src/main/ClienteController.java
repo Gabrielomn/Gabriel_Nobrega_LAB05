@@ -44,6 +44,17 @@ public class ClienteController {
 			return cpf;
 		}
 	}
+	
+	public void cadastraCompra(String nome, String fornecedor, String cpf, String descricao, double valor, String data) throws ClienteNaoExistenteException {
+		
+		if(cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
+		}if (!this.clientes.containsKey(cpf)) {
+			throw new ClienteNaoExistenteException("Erro ao cadastrar compra: cliente nao existe");
+		}
+		this.clientes.get(cpf).cadastraCompra(fornecedor, data, nome, descricao, valor);
+		
+	}
 
 	/**
 	 * 
@@ -144,5 +155,47 @@ public class ClienteController {
 		} else {
 			throw new IllegalArgumentException("Erro na edicao do cliente: atributo nao existe.");
 		}
+	}
+
+	public boolean verificaCliente(String cpf) throws ClienteNaoExistenteException {
+		if(cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf invalido.");
+		}
+		
+		if(!this.clientes.containsKey(cpf)) {
+			return false;
+		}
+		return true;
+	}
+	
+	public void verificaDadosCompra(String cpf, String data) throws ClienteNaoExistenteException {
+		if(cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
+		}
+		
+		if(!this.clientes.containsKey(cpf)) {
+			throw new ClienteNaoExistenteException("Erro ao cadastrar compra: cliente nao existe.");
+		}
+		this.verificaCliente(cpf);
+		if(data.equals("") || data == null) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: data nao pode ser vazia ou nula.");
+		}
+		if(data.length() != 10) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: data invalida.");
+		}
+	}
+
+	public String getDebito(String cpf, String fornecedor) throws ClienteNaoExistenteException, FornecedorNaoExistenteException {
+		if(cpf.length() != 11) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: cpf invalido.");
+		}
+		if(fornecedor.equals("") || fornecedor == null) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao pode ser vazio ou nulo.");
+		}
+		if (!this.clientes.containsKey(cpf)) {
+			throw new ClienteNaoExistenteException("Erro ao recuperar debito: cliente nao existe.");
+		}
+		
+		return String.format("%.2f",this.clientes.get(cpf).getDebito(fornecedor)).replace(",", ".");
 	}
 }

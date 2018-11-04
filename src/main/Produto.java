@@ -9,4 +9,6 @@ public interface Produto extends Comparable<Produto> {
 	public String getDescricao();
 
 	public String getNome();
+	
+	public double getValor();
 }

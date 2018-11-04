@@ -266,8 +266,26 @@ public class FornecedorController {
 		}
 	}
 	
-//	public Compra getCompra() {
-//		
-//	}
+	public double getValorCompra(String fornecedor, String nome, String descricao) throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
+		if (fornecedor.equals("") || fornecedor == null) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
+		}else if (!this.fornecedores.containsKey(fornecedor)) {
+			throw new FornecedorNaoExistenteException("Erro ao cadastrar compra: fornecedor nao existe.");
+		}else {
+			return this.fornecedores.get(fornecedor).getValorCompra(nome, descricao);
+		}
+	}
+
+	public boolean verificaExistenciaFornecedor(String fornecedor) throws FornecedorNaoExistenteException {
+		if(fornecedor.equals("")) {
+			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao pode ser vazio ou nulo.");
+		}
+		if(!this.fornecedores.containsKey(fornecedor)){
+			return false;
+		}
+		return true;
+	}
+
+
 
 }

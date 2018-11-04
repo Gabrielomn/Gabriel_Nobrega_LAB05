@@ -15,4 +15,8 @@ public class Compra {
 	public double getValor() {
 		return this.valor;
 	}
+	
+	public String toString() {
+		return this.id + " - " + this.data;
+	}
 }
