@@ -1,5 +1,10 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Classe que representa a entidade CLIENTE
  * @author gabriel
@@ -11,6 +16,7 @@ public class Cliente implements Comparable<Cliente> {
 	private String cpf;
 	private String email;
 	private String localizacao;
+	private Map<String, List<Compra>> compras;
 
 	/**
 	 * construtor de cliente
@@ -35,6 +41,18 @@ public class Cliente implements Comparable<Cliente> {
 		this.cpf = cpf;
 		this.email = email;
 		this.localizacao = localizacao;
+		this.compras = new HashMap<>();
+	}
+	
+	public void cadastraCompra(String fornecedor, String data, String nomeDoProduto, String descricao, double valor) {
+		if (this.compras.containsKey(fornecedor)) {
+			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nome, descricao), valor));
+		}
+		else {
+			this.compras.put(fornecedor, new ArrayList<>());
+			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nome, descricao), valor));
+
+		}
 	}
 
 	/**
@@ -92,6 +110,18 @@ public class Cliente implements Comparable<Cliente> {
 	@Override
 	public int compareTo(Cliente outro) {
 		return this.nome.compareTo(outro.getNome());
+	}
+
+	public double getDebito(String fornecedor) throws FornecedorNaoExistenteException {
+		if (!this.compras.containsKey(fornecedor)) {
+			throw new FornecedorNaoExistenteException("Erro ao recuperar debito: cliente nao tem debito com fornecedor.");
+		}
+		
+		double soma = 0;
+		for(Compra p : this.compras.get(fornecedor)) {
+			soma += p.getValor();
+		}
+		return soma;
 	}
 
 }

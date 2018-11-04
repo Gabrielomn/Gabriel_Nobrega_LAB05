@@ -49,18 +49,23 @@ public class Combo implements Produto {
 	}
 	
 	public String toString() {
-		return this.nome + " - " + this.descricao + " - R$" + this.getValor();
+		return this.nome + " - " + this.descricao + " - R$" + this.getRepresentacaoPreco();
 	}
 	
-	private String getValor() {
+	private String getRepresentacaoPreco() {
+		double soma = this.getValor();
+		return String.format("%.2f", soma);
+		
+	}
+	
+	public double getValor() {
 		double soma = 0;
 		for(ProdutoSimples p: this.produtos) {
 			soma+= p.getValor();
 		}
-		return String.format("%.2f", soma *(1 - this.fator));
-		
+		return soma * (1 - this.fator);
 	}
-
+	
 	@Override
 	public void setPreco(double novoValor) {
 		this.fator = novoValor;		
