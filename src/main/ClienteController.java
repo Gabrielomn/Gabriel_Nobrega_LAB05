@@ -157,26 +157,29 @@ public class ClienteController {
 		}
 	}
 
-	public boolean verificaCliente(String cpf) throws ClienteNaoExistenteException {
+	public boolean verificaCliente(String cpf, String err) throws ClienteNaoExistenteException {
 		if(cpf.length() != 11) {
-			throw new IllegalArgumentException("Erro ao recuperar debito: cpf invalido.");
+			throw new IllegalArgumentException(err + "cpf invalido.");
 		}
 		
 		if(!this.clientes.containsKey(cpf)) {
-			return false;
+			throw new ClienteNaoExistenteException(err + "cliente nao existe.");
 		}
 		return true;
 	}
 	
+	public boolean verificaData(String data, String err) throws ClienteNaoExistenteException {
+		if(data.length() != 10) {
+			throw new IllegalArgumentException(err + "data invalida.");
+		}
+
+		return true;
+	}
+	
 	public void verificaDadosCompra(String cpf, String data) throws ClienteNaoExistenteException {
-		if(cpf.length() != 11) {
-			throw new IllegalArgumentException("Erro ao cadastrar compra: cpf invalido.");
-		}
+		String err = "Erro ao cadastrar compra: ";
+		this.verificaCliente(cpf, err);
 		
-		if(!this.clientes.containsKey(cpf)) {
-			throw new ClienteNaoExistenteException("Erro ao cadastrar compra: cliente nao existe.");
-		}
-		this.verificaCliente(cpf);
 		if(data.equals("") || data == null) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: data nao pode ser vazia ou nula.");
 		}
@@ -197,5 +200,15 @@ public class ClienteController {
 		}
 		
 		return String.format("%.2f",this.clientes.get(cpf).getDebito(fornecedor)).replace(",", ".");
+	}
+
+	public String exibeContas(String cpf, String fornecedor, String err) throws ClienteNaoExistenteException {
+		this.verificaCliente(cpf, err);
+		return this.clientes.get(cpf).exibeContas(fornecedor, err);
+	}
+
+	public String exibeContasClientes(String cpf, String err) throws ClienteNaoExistenteException {
+		this.verificaCliente(cpf, err);
+		return this.clientes.get(cpf).exibeContas(err);
 	}
 }

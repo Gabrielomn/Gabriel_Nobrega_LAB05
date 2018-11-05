@@ -13,8 +13,9 @@ public class SagaController {
 
 	public String getDebito(String cpf, String fornecedor)
 			throws ClienteNaoExistenteException, FornecedorNaoExistenteException {
-		boolean cliente = this.clienteController.verificaCliente(cpf);
-		boolean forn = this.fornecedorController.verificaExistenciaFornecedor(fornecedor);
+		String err = "Erro ao recuperar debito: ";
+		boolean cliente = this.clienteController.verificaCliente(cpf, err);
+		boolean forn = this.fornecedorController.verificaExistenciaFornecedor(fornecedor, err);
 		String saida = "";
 		saida = this.clienteController.getDebito(cpf, fornecedor);
 		if (!cliente) {
@@ -117,5 +118,16 @@ public class SagaController {
 		args = new String[] { "main.Facade", "acceptance_test/use_case_1.txt", "acceptance_test/use_case_2.txt",
 				"acceptance_test/use_case_3.txt", "acceptance_test/use_case_4.txt", "acceptance_test/use_case_5.txt" };
 		EasyAccept.main(args);
+	}
+
+	public String exibeContas(String cpf, String fornecedor) throws FornecedorNaoExistenteException, ClienteNaoExistenteException {
+		String err = "Erro ao exibir conta do cliente: ";
+		this.fornecedorController.verificaExistenciaFornecedor(fornecedor, err);
+		return this.clienteController.exibeContas(cpf, fornecedor, err);
+	}
+
+	public String exibeContasClientes(String cpf) throws ClienteNaoExistenteException {
+		String err = "Erro ao exibir contas do cliente: ";
+		return this.clienteController.exibeContasClientes(cpf, err);
 	}
 }

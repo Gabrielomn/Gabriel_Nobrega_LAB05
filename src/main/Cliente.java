@@ -46,11 +46,11 @@ public class Cliente implements Comparable<Cliente> {
 	
 	public void cadastraCompra(String fornecedor, String data, String nomeDoProduto, String descricao, double valor) {
 		if (this.compras.containsKey(fornecedor)) {
-			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nome, descricao), valor));
+			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nomeDoProduto, descricao), valor));
 		}
 		else {
 			this.compras.put(fornecedor, new ArrayList<>());
-			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nome, descricao), valor));
+			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nomeDoProduto, descricao), valor));
 
 		}
 	}
@@ -122,6 +122,35 @@ public class Cliente implements Comparable<Cliente> {
 			soma += p.getValor();
 		}
 		return soma;
+	}
+
+	private String pegaContas(String fornecedor) {
+		String saida = "";
+		for(Compra c: this.compras.get(fornecedor)) {
+			saida += c + " | ";
+		}
+		return saida.substring(0, saida.length() - 3);
+	}
+	
+	public String exibeContas(String fornecedor, String err) {
+		this.verificaExistenciaFornecedor(fornecedor, err);
+		String saida = "Cliente: " + this.nome + " | " + fornecedor + " | ";
+		saida += this.pegaContas(fornecedor);
+		return saida;
+	}
+
+	public String exibeContas(String err) {
+		String saida = this.nome + " | ";
+		for (String f :this.compras.keySet()) {
+			saida += f + " | " + this.pegaContas(f);
+		}
+		return saida;
+	}
+	
+	private void verificaExistenciaFornecedor(String fornecedor, String err) {
+		if (!this.compras.containsKey(fornecedor)) {
+			throw new IllegalArgumentException(err + "cliente nao tem nenhuma conta com o fornecedor.");
+		}
 	}
 
 }

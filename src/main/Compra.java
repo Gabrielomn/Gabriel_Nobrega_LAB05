@@ -7,7 +7,7 @@ public class Compra {
 	double valor;
 	
 	public Compra(String data, IdProduto id, double valor) {
-		this.data = data;
+		this.data = data.replaceAll("/", "-");
 		this.id = id;
 		this.valor = valor;
 	}
@@ -17,6 +17,6 @@ public class Compra {
 	}
 	
 	public String toString() {
-		return this.id + " - " + this.data;
+		return this.id.getNome() + " - " + this.data;
 	}
 }

@@ -11,6 +11,10 @@ public class Facade {
 		this.saga = new SagaController();
 	}
 	
+	public String exibeContas(String cpf, String fornecedor) throws FornecedorNaoExistenteException, ClienteNaoExistenteException {
+		return this.saga.exibeContas(cpf, fornecedor);
+	}
+	
 	public String getDebito(String cpf, String fornecedor) throws ClienteNaoExistenteException, FornecedorNaoExistenteException {
 		return this.saga.getDebito(cpf, fornecedor);
 	}
@@ -88,6 +92,10 @@ public class Facade {
 	
 	public void removeProduto(String nome, String descricao, String fornecedor) throws ProdutoNaoCadastradoException, FornecedorNaoExistenteException {
 		this.saga.removeProduto(nome,descricao,fornecedor);
+	}
+	
+	public String exibeContasClientes(String cpf) throws ClienteNaoExistenteException {
+		return this.saga.exibeContasClientes(cpf);
 	}
 	
 	public static void main(String[] args) {

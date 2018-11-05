@@ -276,12 +276,12 @@ public class FornecedorController {
 		}
 	}
 
-	public boolean verificaExistenciaFornecedor(String fornecedor) throws FornecedorNaoExistenteException {
+	public boolean verificaExistenciaFornecedor(String fornecedor, String err) throws FornecedorNaoExistenteException {
 		if(fornecedor.equals("")) {
-			throw new IllegalArgumentException("Erro ao recuperar debito: fornecedor nao pode ser vazio ou nulo.");
+			throw new IllegalArgumentException(err + "fornecedor nao pode ser vazio ou nulo.");
 		}
 		if(!this.fornecedores.containsKey(fornecedor)){
-			return false;
+			throw new IllegalArgumentException(err + "fornecedor nao existe.");
 		}
 		return true;
 	}
