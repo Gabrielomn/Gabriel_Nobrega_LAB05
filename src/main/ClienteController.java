@@ -209,6 +209,6 @@ public class ClienteController {
 
 	public String exibeContasClientes(String cpf, String err) throws ClienteNaoExistenteException {
 		this.verificaCliente(cpf, err);
-		return this.clientes.get(cpf).exibeContas(err);
+		return this.clientes.get(cpf).exibeContas();
 	}
 }

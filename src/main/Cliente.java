@@ -1,9 +1,9 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Classe que representa a entidade CLIENTE
@@ -41,7 +41,7 @@ public class Cliente implements Comparable<Cliente> {
 		this.cpf = cpf;
 		this.email = email;
 		this.localizacao = localizacao;
-		this.compras = new HashMap<>();
+		this.compras = new TreeMap<>();
 	}
 	
 	public void cadastraCompra(String fornecedor, String data, String nomeDoProduto, String descricao, double valor) {
@@ -129,22 +129,22 @@ public class Cliente implements Comparable<Cliente> {
 		for(Compra c: this.compras.get(fornecedor)) {
 			saida += c + " | ";
 		}
-		return saida.substring(0, saida.length() - 3);
+		return saida;
 	}
 	
 	public String exibeContas(String fornecedor, String err) {
 		this.verificaExistenciaFornecedor(fornecedor, err);
 		String saida = "Cliente: " + this.nome + " | " + fornecedor + " | ";
 		saida += this.pegaContas(fornecedor);
-		return saida;
+		return saida.substring(0,saida.length() - 3);
 	}
 
-	public String exibeContas(String err) {
-		String saida = this.nome + " | ";
+	public String exibeContas() {
+		String saida = "Cliente: " + this.nome + " | ";
 		for (String f :this.compras.keySet()) {
 			saida += f + " | " + this.pegaContas(f);
 		}
-		return saida;
+		return saida.substring(0, saida.length() - 3);
 	}
 	
 	private void verificaExistenciaFornecedor(String fornecedor, String err) {
