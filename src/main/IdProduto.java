@@ -1,5 +1,11 @@
 package main;
 
+/**
+ * classe que é usada para identificar o produto, seu maior proposito e servir de identificador unico
+ * para produto no hashMap
+ * @author gabrielomn
+ *
+ */
 public class IdProduto {
 
 	private String nome;
@@ -36,13 +42,21 @@ public class IdProduto {
 		return true;
 	}
 
+	/**
+	 * construtor de IdProduto
+	 * @param nome
+	 * @param descricao
+	 */
 	public IdProduto(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
 	}
 
+	/**
+	 * representação textual do id
+	 */
 	public String toString() {
-		return this.nome;
+		return this.nome + " - " + this.descricao;
 	}
 	
 	public String getNome() {

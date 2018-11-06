@@ -112,6 +112,12 @@ public class Cliente implements Comparable<Cliente> {
 		return this.nome.compareTo(outro.getNome());
 	}
 
+	/**
+	 * retorna os debitos do cliente para dado fornecedor
+	 * @param fornecedor
+	 * @return
+	 * @throws FornecedorNaoExistenteException
+	 */
 	public double getDebito(String fornecedor) throws FornecedorNaoExistenteException {
 		if (!this.compras.containsKey(fornecedor)) {
 			throw new FornecedorNaoExistenteException("Erro ao recuperar debito: cliente nao tem debito com fornecedor.");
@@ -124,6 +130,11 @@ public class Cliente implements Comparable<Cliente> {
 		return soma;
 	}
 
+	/**
+	 * pega todas as representacao de contas com dado fornecedor
+	 * @param fornecedor
+	 * @return
+	 */
 	private String pegaContas(String fornecedor) {
 		String saida = "";
 		for(Compra c: this.compras.get(fornecedor)) {
@@ -132,6 +143,13 @@ public class Cliente implements Comparable<Cliente> {
 		return saida;
 	}
 	
+	/**
+	 * chama os metodos responsaveis por pegar a representação de strings de contas, verificar a existencia
+	 * e trata a string para ficar de acordo com os testes de aceitacao.
+	 * @param fornecedor
+	 * @param err
+	 * @return
+	 */
 	public String exibeContas(String fornecedor, String err) {
 		this.verificaExistenciaFornecedor(fornecedor, err);
 		String saida = "Cliente: " + this.nome + " | " + fornecedor + " | ";
@@ -139,6 +157,10 @@ public class Cliente implements Comparable<Cliente> {
 		return saida.substring(0,saida.length() - 3);
 	}
 
+	/**
+	 * exibe todas as contas com todos os fornecedores
+	 * @return
+	 */
 	public String exibeContas() {
 		String saida = "Cliente: " + this.nome + " | ";
 		for (String f :this.compras.keySet()) {
@@ -147,6 +169,11 @@ public class Cliente implements Comparable<Cliente> {
 		return saida.substring(0, saida.length() - 3);
 	}
 	
+	/**
+	 * verifica a existencia do fornecedor e lança a exceção caso nao haja o fornecedor.
+	 * @param fornecedor
+	 * @param err
+	 */
 	private void verificaExistenciaFornecedor(String fornecedor, String err) {
 		if (!this.compras.containsKey(fornecedor)) {
 			throw new IllegalArgumentException(err + "cliente nao tem nenhuma conta com o fornecedor.");

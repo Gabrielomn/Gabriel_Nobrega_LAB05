@@ -3,8 +3,18 @@ package main;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * entidade que representa produto
+ * @author gabrielomn
+ *
+ */
 public class Combo implements Produto {
 
+	private String nome;
+	private String descricao;
+	private double fator;
+	private ProdutoSimples[] produtos;
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -36,11 +46,13 @@ public class Combo implements Produto {
 		return true;
 	}
 
-	private String nome;
-	private String descricao;
-	private double fator;
-	private ProdutoSimples[] produtos;
-	
+	/**
+	 * construtor de Combo
+	 * @param nome
+	 * @param descricao
+	 * @param fator
+	 * @param produtos
+	 */
 	public Combo(String nome, String descricao, double fator, ProdutoSimples[] produtos) {
 		this.nome = nome;
 		this.descricao = descricao;
@@ -48,16 +60,26 @@ public class Combo implements Produto {
 		this.produtos = produtos;
 	}
 	
+	/**
+	 * @return uma representação textual do combo
+	 */
 	public String toString() {
 		return this.nome + " - " + this.descricao + " - R$" + this.getRepresentacaoPreco();
 	}
 	
+	/**
+	 * retorna o preco no formato desejado, com duas casas decimais.
+	 * @return
+	 */
 	private String getRepresentacaoPreco() {
 		double soma = this.getValor();
 		return String.format("%.2f", soma);
 		
 	}
 	
+	/**
+	 * soma o valor de todos os produtos no combo.
+	 */
 	public double getValor() {
 		double soma = 0;
 		for(ProdutoSimples p: this.produtos) {
@@ -66,6 +88,9 @@ public class Combo implements Produto {
 		return soma * (1 - this.fator);
 	}
 	
+	/**
+	 * muda o fator de desconto do combo.
+	 */
 	@Override
 	public void setPreco(double novoValor) {
 		this.fator = novoValor;		

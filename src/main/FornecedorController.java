@@ -254,6 +254,15 @@ public class FornecedorController {
 		}
 	}
 
+	/**
+	 * edita o combo em um fornecedor, com tal nome e tal descricao, para o mesmo qe é passado como parametro.
+	 * @param nome
+	 * @param descricao
+	 * @param fornecedor
+	 * @param novoFator
+	 * @throws FornecedorNaoExistenteException
+	 * @throws ProdutoNaoCadastradoException
+	 */
 	public void editaCombo(String nome, String descricao, String fornecedor, double novoFator)
 			throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
 		if (fornecedor.equals("") || fornecedor == null) {
@@ -266,6 +275,15 @@ public class FornecedorController {
 		}
 	}
 	
+	/**
+	 * retorna o valor da compra para o fornecedor que é passado como parametro, para a compra com tal nome e tal descricao.
+	 * @param fornecedor
+	 * @param nome
+	 * @param descricao
+	 * @return
+	 * @throws FornecedorNaoExistenteException
+	 * @throws ProdutoNaoCadastradoException
+	 */
 	public double getValorCompra(String fornecedor, String nome, String descricao) throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
 		if (fornecedor.equals("") || fornecedor == null) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
@@ -276,6 +294,13 @@ public class FornecedorController {
 		}
 	}
 
+	/**
+	 * metodo usado para verificar a existencia do fornecedor, USADO PARA SATISFAZER OS TESTES DE ACEITACAO.
+	 * @param fornecedor
+	 * @param err
+	 * @return
+	 * @throws FornecedorNaoExistenteException
+	 */
 	public boolean verificaExistenciaFornecedor(String fornecedor, String err) throws FornecedorNaoExistenteException {
 		if(fornecedor.equals("")) {
 			throw new IllegalArgumentException(err + "fornecedor nao pode ser vazio ou nulo.");

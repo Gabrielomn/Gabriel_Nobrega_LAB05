@@ -19,6 +19,15 @@ public class Fornecedor implements Comparable<Fornecedor> {
 	private String numero;
 	private HashMap<IdProduto, Produto> produtos;
 
+	/**
+	 * metodo que cadastra um combo
+	 * @param nome
+	 * @param descricao
+	 * @param fator
+	 * @param produtos
+	 * @throws ProdutoNaoCadastradoException
+	 * @throws ProdutoJaCadastradoException
+	 */
 	public void cadastraCombo(String nome, String descricao, double fator, String produtos)
 			throws ProdutoNaoCadastradoException, ProdutoJaCadastradoException {
 
@@ -40,6 +49,13 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		}
 	}
 
+	/**
+	 * metodo que retorna um array de produtos, usado para construir o combo, visto que esse apenas passa
+	 * apenas as strings que tem nome e descricao do produto
+	 * @param produtos
+	 * @return
+	 * @throws ProdutoNaoCadastradoException
+	 */
 	private ProdutoSimples[] recuperaProdutos(String produtos) throws ProdutoNaoCadastradoException {
 
 		List<String[]> a = this.getArrayStringsProdutos(produtos);
@@ -56,6 +72,12 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		return temp;
 	}
 
+	/**
+	 * tbm usado para pegar um array de produtos
+	 * @param all
+	 * @return
+	 * @throws ProdutoNaoCadastradoException
+	 */
 	private List<ProdutoSimples> verificaPertinencia(List<String[]> all) throws ProdutoNaoCadastradoException {
 		List<ProdutoSimples> p = new ArrayList<>();
 		for (String[] small : all) {
@@ -70,6 +92,11 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		return p;
 	}
 
+	/**
+	 * separa em strings e trata os espaços em brancos das strings de produtos
+	 * @param produtos
+	 * @return
+	 */
 	private List<String[]> getArrayStringsProdutos(String produtos) {
 		String[] aux = produtos.split(",");
 		List<String[]> a = new ArrayList<>();
@@ -185,22 +212,14 @@ public class Fornecedor implements Comparable<Fornecedor> {
 
 	}
 
+
 	/**
-	 * 
+	 * procura um produto simples
 	 * @param nome
 	 * @param descricao
-	 * @return o produto que tem o nome e a descricao passada como parametro, null
-	 *         caso nao exista
+	 * @return
+	 * @throws ProdutoNaoCadastradoException
 	 */
-//	private Produto procuraProduto(String nome, String descricao) {
-//		for (Produto p : this.produtos) {
-//			if (this.produtos.get(id).getDescricao().equals(descricao) && this.produtos.get(id).getNome().equals(nome)) {
-//				return p;
-//			}
-//		}
-//		return null;
-//	}
-
 	private ProdutoSimples procuraProdutoSimples(String nome, String descricao) throws ProdutoNaoCadastradoException {
 		boolean achouCombo = false;
 		for (IdProduto id : this.produtos.keySet()) {

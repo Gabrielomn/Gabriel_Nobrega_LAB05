@@ -1,5 +1,10 @@
 package main;
 
+/**
+ * interface para produto
+ * @author gabrielomn
+ *
+ */
 public interface Produto extends Comparable<Produto> {
 
 	public void setPreco(double novoValor);
