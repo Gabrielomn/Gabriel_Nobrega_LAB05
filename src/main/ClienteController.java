@@ -211,4 +211,8 @@ public class ClienteController {
 		this.verificaCliente(cpf, err);
 		return this.clientes.get(cpf).exibeContas();
 	}
+
+	public void quitaDebito(String cpf, String fornecedor, String err) throws FornecedorNaoExistenteException {
+		this.clientes.get(cpf).quitaDebito(fornecedor, err);		
+	}
 }

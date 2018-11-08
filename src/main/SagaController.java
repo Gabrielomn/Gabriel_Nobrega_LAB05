@@ -296,4 +296,11 @@ public class SagaController {
 		String err = "Erro ao exibir contas do cliente: ";
 		return this.clienteController.exibeContasClientes(cpf, err);
 	}
+
+	public void quitaDebito(String cpf, String fornecedor) throws FornecedorNaoExistenteException, ClienteNaoExistenteException {
+		String err = "Erro no pagamento de conta: ";
+		this.fornecedorController.verificaExistenciaFornecedor(fornecedor, err);
+		this.clienteController.verificaCliente(cpf, err);
+		this.clienteController.quitaDebito(cpf, fornecedor, err);
+	}
 }

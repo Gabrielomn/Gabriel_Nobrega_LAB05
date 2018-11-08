@@ -180,4 +180,13 @@ public class Cliente implements Comparable<Cliente> {
 		}
 	}
 
+	public void quitaDebito(String fornecedor, String err) throws FornecedorNaoExistenteException {
+		if (!this.compras.containsKey(fornecedor)) {
+			throw new FornecedorNaoExistenteException(err + "nao ha debito do cliente associado a este fornecedor.");
+		}else {
+			this.compras.remove(fornecedor);
+		}
+		
+	}
+
 }
