@@ -25,6 +25,7 @@ public class ClienteController {
 	 */
 	public ClienteController() {
 		this.clientes = new HashMap<>();
+		this.criterio = "Cliente";
 	}
 
 	/**
@@ -164,6 +165,13 @@ public class ClienteController {
 		}
 	}
 
+	/**
+	 * verifica se cliente existe e se os dados passados sao validos
+	 * @param cpf
+	 * @param err
+	 * @return
+	 * @throws ClienteNaoExistenteException
+	 */
 	public boolean verificaCliente(String cpf, String err) throws ClienteNaoExistenteException {
 		if (cpf == null || cpf.equals("")) {
 			throw new IllegalArgumentException(err + "cpf nao pode ser vazio ou nulo.");
@@ -219,15 +227,33 @@ public class ClienteController {
 		return this.clientes.get(cpf).exibeContas(fornecedor, err);
 	}
 
+	/**
+	 * exibe todas as contas de clientes
+	 * @param cpf
+	 * @param err
+	 * @return
+	 * @throws Exception
+	 */
 	public String exibeContasClientes(String cpf, String err) throws Exception {
 		this.verificaCliente(cpf, err);
 		return this.clientes.get(cpf).exibeContas();
 	}
 
+	/**
+	 * quita debito com determinado fornecedor
+	 * @param cpf
+	 * @param fornecedor
+	 * @param err
+	 * @throws FornecedorNaoExistenteException
+	 */
 	public void quitaDebito(String cpf, String fornecedor, String err) throws FornecedorNaoExistenteException {
 		this.clientes.get(cpf).quitaDebito(fornecedor, err);
 	}
 
+	/**
+	 * define criterio para qual serao ordenados.
+	 * @param criterio
+	 */
 	public void ordenaPor(String criterio) {
 		if(criterio == null || criterio.equals("")) {
 			throw new IllegalArgumentException("Erro na listagem de compras: criterio nao pode ser vazio ou nulo.");
@@ -238,6 +264,10 @@ public class ClienteController {
 		this.criterio = criterio;
 	}
 
+	/**
+	 * retorna uma representacao de string para todas as compras.
+	 * @return
+	 */
 	public String listarCompras() {
 
 		List<Compra> todasAsCompras = new ArrayList<>();
@@ -251,6 +281,11 @@ public class ClienteController {
 		return this.stringify(comprasOrdenadas);
 	}
 
+	/**
+	 * transforma em String da forma desejada pra listagem
+	 * @param comprasOrdenadas
+	 * @return
+	 */
 	private String stringify(List<Compra> comprasOrdenadas) {
 		String saida = "";
 		if (this.criterio.equals("Fornecedor")) {
@@ -270,7 +305,12 @@ public class ClienteController {
 		}
 		return saida.substring(0, saida.length() - 3);
 	}
-
+	
+	/**
+	 * ordena as compras de acordo com o criterio ja definido.
+	 * @param todasAsCompras
+	 * @return
+	 */
 	private List<Compra> ordenaCompras(List<Compra> todasAsCompras) {
 		if (this.criterio.equals("Fornecedor")) {
 			Collections.sort(todasAsCompras, new FornecedorComparator());

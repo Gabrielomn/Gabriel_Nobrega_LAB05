@@ -34,14 +34,27 @@ public class Compra {
 		return this.valor;
 	}
 	
+	/**
+	 * retorna a string usada quando a representacao utilizada é ordenada por cliente
+	 * @return
+	 */
 	public String representacaoPorCliente() {
 		return this.nomeCliente + ", " + this.nomeFornecedor + ", " + this.id.getDescricao() + ", " + this.data;
 	}
 	
+	/**
+	 * retorna a string usada quando a representacao utilizada é ordenada por fornecedor
+	 * @return
+	 */
 	public String representacaoPorFornecedor() {
 		return this.nomeFornecedor + ", " + this.nomeCliente + ", " + this.id.getDescricao() + ", " + this.data;
 	}
 	
+	
+	/**
+	 * retorna a string usada quando a representacao utilizada é ordenada por data
+	 * @return
+	 */
 	public String representacaoPorData() {
 		return this.data + ", " + this.nomeCliente + ", " + this.nomeFornecedor + ", " + this.id.getDescricao();
 	}

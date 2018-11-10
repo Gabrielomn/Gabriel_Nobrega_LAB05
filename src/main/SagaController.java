@@ -298,6 +298,13 @@ public class SagaController {
 		return this.clienteController.exibeContasClientes(cpf, err);
 	}
 
+	/**
+	 * quita o debito de um cliente com um fornecedor
+	 * @param cpf
+	 * @param fornecedor
+	 * @throws FornecedorNaoExistenteException
+	 * @throws ClienteNaoExistenteException
+	 */
 	public void quitaDebito(String cpf, String fornecedor) throws FornecedorNaoExistenteException, ClienteNaoExistenteException {
 		String err = "Erro no pagamento de conta: ";
 		this.fornecedorController.verificaExistenciaFornecedor(fornecedor, err);
@@ -305,10 +312,18 @@ public class SagaController {
 		this.clienteController.quitaDebito(cpf, fornecedor, err);
 	}
 
+	/**
+	 * define o criterio para qual as compras serao ordenadas.
+	 * @param criterio
+	 */
 	public void ordenaPor(String criterio) {
 		this.clienteController.ordenaPor(criterio);
 	}
 
+	/**
+	 * lista todas as compras de acordo com o criterio previamente definido.
+	 * @return
+	 */
 	public String listarCompras() {
 		return this.clienteController.listarCompras();
 	}

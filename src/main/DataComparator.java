@@ -2,6 +2,12 @@ package main;
 
 import java.util.Comparator;
 
+
+/**
+ * entidade responsavel para comparar duas datas com data como criterio
+ * @author gabriel
+ *
+ */
 public class DataComparator implements Comparator<Compra> {
 
 	public int compare(Compra c1, Compra c2) {

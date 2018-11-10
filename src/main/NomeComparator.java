@@ -2,6 +2,11 @@ package main;
 
 import java.util.Comparator;
 
+/**
+ * classe responsavel por comparar dois clientes usando nome como criterio.
+ * @author gabriel
+ *
+ */
 public class NomeComparator implements Comparator<Compra> {
 
 	public int compare(Compra c1, Compra c2) {

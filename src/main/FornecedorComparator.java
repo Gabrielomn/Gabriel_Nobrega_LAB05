@@ -2,6 +2,11 @@ package main;
 
 import java.util.Comparator;
 
+/**
+ * classe responsavel por comparar duas compras levando o fornecedor como criterio.
+ * @author gabriel
+ *
+ */
 public class FornecedorComparator implements Comparator<Compra> {
 
 	public int compare(Compra c1, Compra c2) {
