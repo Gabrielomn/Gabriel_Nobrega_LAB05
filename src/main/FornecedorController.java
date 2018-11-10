@@ -287,7 +287,15 @@ public class FornecedorController {
 	public double getValorCompra(String fornecedor, String nome, String descricao) throws FornecedorNaoExistenteException, ProdutoNaoCadastradoException {
 		if (fornecedor.equals("") || fornecedor == null) {
 			throw new IllegalArgumentException("Erro ao cadastrar compra: fornecedor nao pode ser vazio ou nulo.");
-		}else if (!this.fornecedores.containsKey(fornecedor)) {
+		}
+		if (nome.equals("") || nome == null) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: nome do produto nao pode ser vazio ou nulo.");
+		}
+		if (descricao.equals("") || descricao == null) {
+			throw new IllegalArgumentException("Erro ao cadastrar compra: descricao do produto nao pode ser vazia ou nula.");
+		}
+		
+		else if (!this.fornecedores.containsKey(fornecedor)) {
 			throw new FornecedorNaoExistenteException("Erro ao cadastrar compra: fornecedor nao existe.");
 		}else {
 			return this.fornecedores.get(fornecedor).getValorCompra(nome, descricao);
@@ -302,7 +310,7 @@ public class FornecedorController {
 	 * @throws FornecedorNaoExistenteException
 	 */
 	public boolean verificaExistenciaFornecedor(String fornecedor, String err) throws FornecedorNaoExistenteException {
-		if(fornecedor.equals("")) {
+		if(fornecedor == null || fornecedor.equals("")) {
 			throw new IllegalArgumentException(err + "fornecedor nao pode ser vazio ou nulo.");
 		}
 		if(!this.fornecedores.containsKey(fornecedor)){

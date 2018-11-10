@@ -44,13 +44,24 @@ public class Cliente implements Comparable<Cliente> {
 		this.compras = new TreeMap<>();
 	}
 	
+	public List<Compra> getAllCompras(){
+		List<Compra> l = new ArrayList<>();
+		for (String f:this.compras.keySet()) {
+			for(Compra p: this.compras.get(f)) {
+				l.add(p);
+			}
+		}
+		return l;
+	}
+	
 	public void cadastraCompra(String fornecedor, String data, String nomeDoProduto, String descricao, double valor) {
+		
 		if (this.compras.containsKey(fornecedor)) {
-			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nomeDoProduto, descricao), valor));
+			this.compras.get(fornecedor).add(new Compra(this.nome, fornecedor, data, new IdProduto(nomeDoProduto, descricao), valor));
 		}
 		else {
 			this.compras.put(fornecedor, new ArrayList<>());
-			this.compras.get(fornecedor).add(new Compra(data, new IdProduto(nomeDoProduto, descricao), valor));
+			this.compras.get(fornecedor).add(new Compra(this.nome, fornecedor, data, new IdProduto(nomeDoProduto, descricao), valor));
 
 		}
 	}
@@ -143,12 +154,14 @@ public class Cliente implements Comparable<Cliente> {
 		return saida;
 	}
 	
+	
 	/**
 	 * chama os metodos responsaveis por pegar a representação de strings de contas, verificar a existencia
 	 * e trata a string para ficar de acordo com os testes de aceitacao.
 	 * @param fornecedor
 	 * @param err
 	 * @return
+	 * @throws Exception 
 	 */
 	public String exibeContas(String fornecedor, String err) {
 		this.verificaExistenciaFornecedor(fornecedor, err);
@@ -160,12 +173,18 @@ public class Cliente implements Comparable<Cliente> {
 	/**
 	 * exibe todas as contas com todos os fornecedores
 	 * @return
+	 * @throws Exception 
 	 */
-	public String exibeContas() {
+	public String exibeContas() throws Exception {
+		if(this.compras.keySet().size() == 0) {
+			throw new Exception ("Erro ao exibir contas do cliente: cliente nao tem nenhuma conta.");
+		}
+		
 		String saida = "Cliente: " + this.nome + " | ";
 		for (String f :this.compras.keySet()) {
 			saida += f + " | " + this.pegaContas(f);
 		}
+		
 		return saida.substring(0, saida.length() - 3);
 	}
 	

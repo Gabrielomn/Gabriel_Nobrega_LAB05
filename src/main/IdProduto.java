@@ -59,6 +59,10 @@ public class IdProduto {
 		return this.nome + " - " + this.descricao;
 	}
 	
+	public String getDescricao() {
+		return this.descricao;
+	}
+	
 	public String getNome() {
 		return this.nome;
 	}

@@ -98,12 +98,20 @@ public class Facade {
 		this.saga.removeProduto(nome,descricao,fornecedor);
 	}
 	
-	public String exibeContasClientes(String cpf) throws ClienteNaoExistenteException {
+	public String exibeContasClientes(String cpf) throws Exception {
 		return this.saga.exibeContasClientes(cpf);
 	}
 	
+	public String listarCompras() {
+		return saga.listarCompras();
+	}
+	
+	public void ordenaPor(String criterio) {
+		this.saga.ordenaPor(criterio);
+	}
+	
 	public static void main(String[] args) {
-		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt","acceptance_test/use_case_2.txt","acceptance_test/use_case_3.txt","acceptance_test/use_case_4.txt","acceptance_test/use_case_5.txt", "acceptance_test/use_case_6.txt"};
+		args = new String[] {"main.Facade","acceptance_test/use_case_1.txt","acceptance_test/use_case_2.txt","acceptance_test/use_case_3.txt","acceptance_test/use_case_4.txt","acceptance_test/use_case_5.txt", "acceptance_test/use_case_6.txt","acceptance_test/use_case_7.txt"};
 		EasyAccept.main(args);
 	}
 }

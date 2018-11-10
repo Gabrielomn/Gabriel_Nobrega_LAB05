@@ -233,7 +233,7 @@ public class Fornecedor implements Comparable<Fornecedor> {
 		}
 		if (achouCombo) {
 			throw new ProdutoNaoCadastradoException(
-					"Erro no cadastro de combo: um combo n�o pode possuir combos na lista de produtos.");
+					"Erro no cadastro de combo: um combo nao pode possuir combos na lista de produtos.");
 		}
 		return null;
 	}
